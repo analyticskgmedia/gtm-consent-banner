@@ -316,8 +316,31 @@ function hasConsent() {
 // Function to get current language from URL
 function getCurrentLanguage() {
   const pathname = getUrl('path');
-  const langMatch = pathname.match(/^\/([a-z]{2})\//);
-  return langMatch ? langMatch[1] : config.language.default;
+  // Check if path starts with a language code like /en/, /de/, etc.
+  if (pathname && pathname.length > 3) {
+    const firstPart = pathname.substring(1, 3); // Get characters after first slash
+    const possibleLang = firstPart.toLowerCase();
+    // Check if it's a valid 2-letter language code followed by a slash
+    if (pathname.charAt(0) === '/' && pathname.charAt(3) === '/') {
+      // Check if it's only letters
+      var isValidLang = true;
+      for (var i = 0; i < possibleLang.length; i++) {
+        var char = possibleLang.charAt(i);
+        if (char < 'a' || char > 'z') {
+          isValidLang = false;
+          break;
+        }
+      }
+      if (isValidLang && possibleLang.length === 2) {
+        // Check if we support this language
+        const supportedLangs = ['en', 'zh', 'es', 'hi', 'ar', 'pt', 'ru', 'ja', 'de', 'fr', 'hr'];
+        if (supportedLangs.indexOf(possibleLang) !== -1) {
+          return possibleLang;
+        }
+      }
+    }
+  }
+  return config.language.default;
 }
 
 // Function to set default consent state
@@ -355,7 +378,7 @@ function initConsentBanner() {
   }, true);
   
   // Inject the banner script
-  const scriptUrl = 'https://github.com/analyticskgmedia/gtm-consent-banner/blob/fc5d6e08df386a87797b962d4728e8845c02e82d/banner.min.js';
+  const scriptUrl = 'https://github.com/analyticskgmedia/gtm-consent-banner/blob/ac703fe473c5e2522db4ce4ad115e0704995dc25/banner.min.js';
   
   if (queryPermission('inject_script', scriptUrl)) {
     injectScript(scriptUrl, function() {
@@ -375,11 +398,17 @@ if (!hasConsent()) {
   initConsentBanner();
 } else {
   // Restore consent from cookie
-  try {
-    const savedConsent = JSON.parse(getCookieValues('gtm_consent_mode')[0]);
-    callInWindow('gtag', 'consent', 'update', savedConsent);
-  } catch (e) {
-    log('Error parsing saved consent:', e);
+  const savedConsentStr = getCookieValues('gtm_consent_mode')[0];
+  if (savedConsentStr) {
+    const savedConsent = JSON.parse(savedConsentStr);
+    if (savedConsent) {
+      callInWindow('gtag', 'consent', 'update', savedConsent);
+    } else {
+      // If parsing failed, reset consent
+      setDefaultConsent();
+      initConsentBanner();
+    }
+  } else {
     setDefaultConsent();
     initConsentBanner();
   }
