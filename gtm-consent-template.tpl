@@ -370,54 +370,90 @@ function updateConsent(consentSettings) {
 
 // Function to initialize consent banner
 function initConsentBanner() {
-  // Set configuration in window
-  setInWindow('gtmConsentConfig', {
+  log('initConsentBanner called');
+  
+  // Set configuration in window BEFORE loading the script
+  const configObject = {
     config: config,
     currentLanguage: getCurrentLanguage(),
-    updateConsent: updateConsent
-  }, true);
+    updateConsent: function(settings) {
+      log('updateConsent called with:', settings);
+      updateConsent(settings);
+    },
+    hasExistingConsent: hasConsent()
+  };
+  
+  log('Setting config in window:', configObject);
+  setInWindow('gtmConsentConfig', configObject, true);
+  
+  // Verify it was set
+  const verifyConfig = callInWindow('gtmConsentConfig');
+  log('Config verification:', verifyConfig);
+  
+  // Also set the gtag function if it doesn't exist
+  if (!callInWindow('gtag')) {
+    log('Creating gtag function');
+    setInWindow('gtag', function() {
+      dataLayerPush(arguments);
+    }, true);
+  }
   
   // Inject the banner script
-  const scriptUrl = 'https://cdn.jsdelivr.net/gh/analyticskgmedia/gtm-consent-banner@main/banner.min.js';
+  const scriptUrl = 'https://cdn.jsdelivr.net/gh/analyticskgmedia/gtm-consent-banner@main/banner.js';
+  
+  log('Injecting script from:', scriptUrl);
   
   if (queryPermission('inject_script', scriptUrl)) {
     injectScript(scriptUrl, function() {
-      log('Consent banner script loaded successfully');
+      log('Consent banner script loaded successfully!');
+      // Trigger a custom event to signal banner is ready
+      dataLayerPush({'event': 'consent_banner_loaded'});
     }, function() {
-      log('Failed to load consent banner script');
+      log('ERROR: Failed to load consent banner script!');
+      dataLayerPush({'event': 'consent_banner_error'});
     }, scriptUrl);
+  } else {
+    log('ERROR: No permission to inject script!');
   }
 }
 
 // Main execution
+log('Consent Banner Tag Starting...');
+log('Current URL:', getUrl());
+log('Cookie check - has consent:', hasConsent());
+
+// ALWAYS set default consent state first
+setDefaultConsent();
+
 if (!hasConsent()) {
-  // Set default consent state
-  setDefaultConsent();
-  
+  log('No existing consent found - showing banner');
   // Initialize consent banner
   initConsentBanner();
 } else {
+  log('Existing consent found - restoring from cookie');
   // Restore consent from cookie
   const savedConsentStr = getCookieValues('gtm_consent_mode')[0];
   if (savedConsentStr) {
+    log('Saved consent string:', savedConsentStr);
     const savedConsent = JSON.parse(savedConsentStr);
     if (savedConsent) {
       callInWindow('gtag', 'consent', 'update', savedConsent);
-    } else {
-      // If parsing failed, reset consent
-      setDefaultConsent();
-      initConsentBanner();
+      // Push to dataLayer for tracking
+      dataLayerPush({
+        'event': 'consent_restored',
+        'consent_settings': savedConsent
+      });
     }
-  } else {
-    setDefaultConsent();
-    initConsentBanner();
   }
+  // Still initialize banner for settings button
+  initConsentBanner();
 }
 
-// Always show the consent settings button
-initConsentBanner();
+log('Consent Banner Tag Completed');
 
 // Call data.gtmOnSuccess when the tag is finished.
+data.gtmOnSuccess();mOnSuccess when the tag is finished.
+data.gtmOnSuccess();mOnSuccess when the tag is finished.
 data.gtmOnSuccess();
 
 ___WEB_PERMISSIONS___
