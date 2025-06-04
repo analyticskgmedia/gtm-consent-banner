@@ -378,7 +378,7 @@ function initConsentBanner() {
   }, true);
   
   // Inject the banner script
-  const scriptUrl = 'https://github.com/analyticskgmedia/gtm-consent-banner/blob/ac703fe473c5e2522db4ce4ad115e0704995dc25/banner.min.js';
+  const scriptUrl = 'https://cdn.jsdelivr.net/gh/analyticskgmedia/gtm-consent-banner@main/banner.min.js';
   
   if (queryPermission('inject_script', scriptUrl)) {
     injectScript(scriptUrl, function() {
