@@ -5,6 +5,7 @@ Template Gallery Developer Terms of Service available at
 https://developers.google.com/tag-manager/gallery-tos (or such other URL as
 Google may provide), as modified from time to time.
 
+
 ___INFO___
 
 {
@@ -23,6 +24,7 @@ ___INFO___
     "WEB"
   ]
 }
+
 
 ___TEMPLATE_PARAMETERS___
 
@@ -243,6 +245,7 @@ ___TEMPLATE_PARAMETERS___
   }
 ]
 
+
 ___SANDBOXED_JS_FOR_WEB_TEMPLATE___
 
 // GTM API imports
@@ -260,9 +263,15 @@ const makeInteger = require('makeInteger');
 
 // Initialize dataLayer and gtag
 const dataLayerPush = createQueue('dataLayer');
+
+// Create gtag function properly
+const gtagSet = createQueue('gtag');
 setInWindow('gtag', function() {
-  dataLayerPush(arguments);
+  gtagSet(arguments);
 }, true);
+
+// Also ensure dataLayer exists
+setInWindow('dataLayer', [], true);
 
 // Configuration from template fields
 const config = {
@@ -345,14 +354,44 @@ function getCurrentLanguage() {
 
 // Function to set default consent state
 function setDefaultConsent() {
-  callInWindow('gtag', 'consent', 'default', config.defaults);
-  callInWindow('gtag', 'set', 'ads_data_redaction', config.advanced.adsDataRedaction);
-  callInWindow('gtag', 'set', 'url_passthrough', config.advanced.urlPassthrough);
+  log('Setting default consent state:', config.defaults);
+  
+  // Push consent default to dataLayer first
+  dataLayerPush({
+    'event': 'gtm.init_consent',
+    'gtm.consent': config.defaults
+  });
+  
+  // Use the proper gtag command
+  gtagSet(['consent', 'default', config.defaults]);
+  gtagSet(['set', 'ads_data_redaction', config.advanced.adsDataRedaction]);
+  gtagSet(['set', 'url_passthrough', config.advanced.urlPassthrough]);
+  
+  // Also push as a custom event for debugging
+  dataLayerPush({
+    'event': 'consent_default_set',
+    'consent_defaults': config.defaults
+  });
 }
 
 // Function to update consent
 function updateConsent(consentSettings) {
-  callInWindow('gtag', 'consent', 'update', consentSettings);
+  log('Updating consent:', consentSettings);
+  
+  // Push consent update to dataLayer
+  dataLayerPush({
+    'event': 'gtm.consent',
+    'gtm.consent': consentSettings
+  });
+  
+  // Use the proper gtag command
+  gtagSet(['consent', 'update', consentSettings]);
+  
+  // Also push as a custom event for tracking
+  dataLayerPush({
+    'event': 'consent_update',
+    'consent_settings': consentSettings
+  });
   
   // Store consent in cookie
   const cookieOptions = {
@@ -365,6 +404,7 @@ function updateConsent(consentSettings) {
   
   if (queryPermission('set_cookies', 'gtm_consent_mode')) {
     setCookie('gtm_consent_mode', JSON.stringify(consentSettings), cookieOptions);
+    log('Consent saved to cookie');
   }
 }
 
@@ -386,18 +426,6 @@ function initConsentBanner() {
   log('Setting config in window:', configObject);
   setInWindow('gtmConsentConfig', configObject, true);
   
-  // Verify it was set
-  const verifyConfig = callInWindow('gtmConsentConfig');
-  log('Config verification:', verifyConfig);
-  
-  // Also set the gtag function if it doesn't exist
-  if (!callInWindow('gtag')) {
-    log('Creating gtag function');
-    setInWindow('gtag', function() {
-      dataLayerPush(arguments);
-    }, true);
-  }
-  
   // Inject the banner script
   const scriptUrl = 'https://cdn.jsdelivr.net/gh/analyticskgmedia/gtm-consent-banner@main/banner.js';
   
@@ -406,7 +434,6 @@ function initConsentBanner() {
   if (queryPermission('inject_script', scriptUrl)) {
     injectScript(scriptUrl, function() {
       log('Consent banner script loaded successfully!');
-      // Trigger a custom event to signal banner is ready
       dataLayerPush({'event': 'consent_banner_loaded'});
     }, function() {
       log('ERROR: Failed to load consent banner script!');
@@ -418,6 +445,58 @@ function initConsentBanner() {
 }
 
 // Main execution
+log('Consent Banner Tag Starting...');
+log('Current URL:', getUrl());
+log('Cookie check - has consent:', hasConsent());
+
+// First, ensure gtag and dataLayer are properly initialized
+if (!callInWindow('dataLayer')) {
+  log('Creating dataLayer');
+  setInWindow('dataLayer', [], true);
+}
+
+if (!callInWindow('gtag')) {
+  log('Creating gtag function');
+  setInWindow('gtag', function() {
+    callInWindow('dataLayer.push', arguments);
+  }, true);
+}
+
+// ALWAYS set default consent state first
+setDefaultConsent();
+
+// Add a small delay to ensure consent default is processed
+callInWindow('setTimeout', function() {
+  if (!hasConsent()) {
+    log('No existing consent found - showing banner');
+    // Initialize consent banner
+    initConsentBanner();
+  } else {
+    log('Existing consent found - restoring from cookie');
+    // Restore consent from cookie
+    const savedConsentStr = getCookieValues('gtm_consent_mode')[0];
+    if (savedConsentStr) {
+      log('Saved consent string:', savedConsentStr);
+      const savedConsent = JSON.parse(savedConsentStr);
+      if (savedConsent) {
+        // Update consent
+        gtagSet(['consent', 'update', savedConsent]);
+        // Push to dataLayer for tracking
+        dataLayerPush({
+          'event': 'consent_restored',
+          'consent_settings': savedConsent
+        });
+      }
+    }
+    // Still initialize banner for settings button
+    initConsentBanner();
+  }
+}, 100);
+
+log('Consent Banner Tag Completed');
+
+// Call data.gtmOnSuccess when the tag is finished.
+data.gtmOnSuccess();
 log('Consent Banner Tag Starting...');
 log('Current URL:', getUrl());
 log('Cookie check - has consent:', hasConsent());
@@ -438,7 +517,6 @@ if (!hasConsent()) {
     const savedConsent = JSON.parse(savedConsentStr);
     if (savedConsent) {
       callInWindow('gtag', 'consent', 'update', savedConsent);
-      // Push to dataLayer for tracking
       dataLayerPush({
         'event': 'consent_restored',
         'consent_settings': savedConsent
@@ -452,9 +530,8 @@ if (!hasConsent()) {
 log('Consent Banner Tag Completed');
 
 // Call data.gtmOnSuccess when the tag is finished.
-data.gtmOnSuccess();mOnSuccess when the tag is finished.
-data.gtmOnSuccess();mOnSuccess when the tag is finished.
 data.gtmOnSuccess();
+
 
 ___WEB_PERMISSIONS___
 
@@ -474,6 +551,9 @@ ___WEB_PERMISSIONS___
           }
         }
       ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
     },
     "isRequired": true
   },
@@ -774,10 +854,12 @@ ___WEB_PERMISSIONS___
   }
 ]
 
+
 ___TESTS___
 
 scenarios: []
 
+
 ___NOTES___
 
-Created on 06/06/2025, 00:00:00
+Created on 1/1/2024, 12:00:00 AM
