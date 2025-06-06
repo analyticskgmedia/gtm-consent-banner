@@ -36,7 +36,7 @@ Or use your own hosting location and update the script URL in the template setti
 1. Go to **Tags** → **New**
 2. Choose your imported "Advanced Consent Mode v2 Banner" template
 3. Configure the settings (see below)
-4. Set trigger to "Consent Initialization - All Pages"
+4. Set trigger to "All Pages"
 5. Save and publish
 
 ## Configuration
@@ -66,6 +66,11 @@ Or use your own hosting location and update the script URL in the template setti
 
 - **Website Logo URL**: Your website logo (optional)
 - **Company Logo URL**: Your company logo (optional)
+
+### Floating Button Settings
+
+- **Show floating settings button**: Enable/disable the floating button (default: enabled)
+- **Button Position**: Choose corner position (bottom-left, bottom-right, top-left, top-right)
 
 ### Privacy Policy Links
 
@@ -142,7 +147,7 @@ This template is provided under the MIT License. See LICENSE file for details.
 
 For issues or questions:
 - GitHub Issues: [https://github.com/analyticskgmedia/gtm-consent-banner/issues](https://github.com/analyticskgmedia/gtm-consent-banner/issues)
-- Email: info@kg-media.hr
+- Email: support@kg-media.eu
 
 ## Contributing
 

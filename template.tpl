@@ -227,6 +227,43 @@ ___TEMPLATE_PARAMETERS___
   },
   {
     "type": "GROUP",
+    "name": "floatingButton",
+    "displayName": "Floating Button Settings",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "showFloatingButton",
+        "checkboxText": "Show floating settings button",
+        "simpleValueType": true,
+        "defaultValue": true,
+        "help": "Display a floating button for users to change cookie preferences after closing the banner"
+      },
+      {
+        "type": "SELECT",
+        "name": "floatingButtonPosition",
+        "displayName": "Button Position",
+        "macrosInSelect": false,
+        "selectItems": [
+          {"value": "bottom-left", "displayValue": "Bottom Left"},
+          {"value": "bottom-right", "displayValue": "Bottom Right"},
+          {"value": "top-left", "displayValue": "Top Left"},
+          {"value": "top-right", "displayValue": "Top Right"}
+        ],
+        "simpleValueType": true,
+        "defaultValue": "bottom-left",
+        "enablingConditions": [
+          {
+            "paramName": "showFloatingButton",
+            "paramValue": true,
+            "type": "EQUALS"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
     "name": "advanced",
     "displayName": "Advanced Settings",
     "groupStyle": "ZIPPY_CLOSED",
@@ -289,6 +326,8 @@ const waitForUpdate = makeNumber(data.waitForUpdate);
 const cookieName = data.cookieName;
 const cookieExpiry = makeNumber(data.cookieExpiry);
 const scriptUrl = data.scriptUrl;
+const showFloatingButton = data.showFloatingButton;
+const floatingButtonPosition = data.floatingButtonPosition;
 
 // Appearance settings
 const appearance = {
@@ -405,6 +444,8 @@ function initConsentBanner() {
     appearance: appearance,
     logos: logos,
     privacyPolicyUrls: privacyPolicyUrls,
+    showFloatingButton: showFloatingButton,
+    floatingButtonPosition: floatingButtonPosition,
     onConsentUpdate: function(consent) {
       // Update consent state
       updateConsentState({

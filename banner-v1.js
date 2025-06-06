@@ -774,6 +774,13 @@
     }
 
     function showToggleButton(bannerId) {
+        const config = window.kgConsentConfig || {};
+        
+        // Check if floating button is disabled
+        if (config.showFloatingButton === false) {
+            return; // Don't show the button
+        }
+        
         const existingToggle = document.getElementById(`${bannerId}-toggle`);
         if (existingToggle) return;
 
@@ -781,10 +788,23 @@
         toggle.id = `${bannerId}-toggle`;
         toggle.setAttribute('aria-label', getTranslation('cookieSettings'));
         toggle.setAttribute('title', getTranslation('cookieSettings'));
+        
+        // Handle position
+        const position = config.floatingButtonPosition || 'bottom-left';
+        const positions = {
+            'bottom-left': { bottom: '20px', left: '20px', right: 'auto', top: 'auto' },
+            'bottom-right': { bottom: '20px', right: '20px', left: 'auto', top: 'auto' },
+            'top-left': { top: '20px', left: '20px', bottom: 'auto', right: 'auto' },
+            'top-right': { top: '20px', right: '20px', bottom: 'auto', left: 'auto' }
+        };
+        
+        const pos = positions[position];
         toggle.style.cssText = `
             position: fixed !important;
-            bottom: 20px !important;
-            left: 20px !important;
+            bottom: ${pos.bottom} !important;
+            left: ${pos.left} !important;
+            right: ${pos.right} !important;
+            top: ${pos.top} !important;
             width: 48px !important;
             height: 48px !important;
             background: ${window.kgConsentConfig?.appearance?.primaryColor || '#2563eb'} !important;
