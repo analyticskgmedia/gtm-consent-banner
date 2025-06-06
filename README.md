@@ -36,7 +36,7 @@ Or use your own hosting location and update the script URL in the template setti
 1. Go to **Tags** → **New**
 2. Choose your imported "Advanced Consent Mode v2 Banner" template
 3. Configure the settings (see below)
-4. Set trigger to "All Pages"
+4. Set trigger to "Consent Initialization - All Pages"
 5. Save and publish
 
 ## Configuration
