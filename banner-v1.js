@@ -1,0 +1,876 @@
+/**
+ * KG Media Consent Banner v1.0
+ * GDPR-compliant consent banner with Google Consent Mode v2
+ * (c) 2025 KG Media
+ */
+
+(function() {
+    'use strict';
+
+    // Multi-language translations
+    const translations = {
+        en: {
+            title: "We value your privacy",
+            description: "We use cookies to enhance your browsing experience, serve personalized content, and analyze our traffic. Please choose your cookie preferences below.",
+            acceptAll: "Accept All",
+            rejectAll: "Reject All",
+            details: "Details",
+            save: "Save Preferences",
+            necessary: "Necessary",
+            necessaryDesc: "Essential for the website to function properly",
+            analytics: "Analytics",
+            analyticsDesc: "Help us understand how visitors use our website",
+            marketing: "Marketing",
+            marketingDesc: "Used to deliver personalized advertisements",
+            functional: "Functional",
+            functionalDesc: "Enable enhanced functionality and personalization",
+            privacyPolicy: "Privacy Policy",
+            cookieSettings: "Cookie Settings",
+            poweredBy: "Powered by"
+        },
+        de: {
+            title: "Wir respektieren Ihre Privatsphäre",
+            description: "Wir verwenden Cookies, um Ihr Browsing-Erlebnis zu verbessern, personalisierte Inhalte bereitzustellen und unseren Traffic zu analysieren. Bitte wählen Sie unten Ihre Cookie-Einstellungen.",
+            acceptAll: "Alle akzeptieren",
+            rejectAll: "Alle ablehnen",
+            details: "Details",
+            save: "Einstellungen speichern",
+            necessary: "Notwendig",
+            necessaryDesc: "Wesentlich für das ordnungsgemäße Funktionieren der Website",
+            analytics: "Analytik",
+            analyticsDesc: "Helfen uns zu verstehen, wie Besucher unsere Website nutzen",
+            marketing: "Marketing",
+            marketingDesc: "Wird verwendet, um personalisierte Werbung zu liefern",
+            functional: "Funktional",
+            functionalDesc: "Ermöglichen erweiterte Funktionalität und Personalisierung",
+            privacyPolicy: "Datenschutzerklärung",
+            cookieSettings: "Cookie-Einstellungen",
+            poweredBy: "Bereitgestellt von"
+        },
+        fr: {
+            title: "Nous respectons votre vie privée",
+            description: "Nous utilisons des cookies pour améliorer votre expérience de navigation, fournir du contenu personnalisé et analyser notre trafic. Veuillez choisir vos préférences de cookies ci-dessous.",
+            acceptAll: "Tout accepter",
+            rejectAll: "Tout refuser",
+            details: "Détails",
+            save: "Enregistrer les préférences",
+            necessary: "Nécessaire",
+            necessaryDesc: "Essentiel au bon fonctionnement du site",
+            analytics: "Analytique",
+            analyticsDesc: "Nous aide à comprendre comment les visiteurs utilisent notre site",
+            marketing: "Marketing",
+            marketingDesc: "Utilisé pour diffuser des publicités personnalisées",
+            functional: "Fonctionnel",
+            functionalDesc: "Active des fonctionnalités et une personnalisation améliorées",
+            privacyPolicy: "Politique de confidentialité",
+            cookieSettings: "Paramètres des cookies",
+            poweredBy: "Propulsé par"
+        },
+        es: {
+            title: "Valoramos tu privacidad",
+            description: "Utilizamos cookies para mejorar tu experiencia de navegación, ofrecer contenido personalizado y analizar nuestro tráfico. Por favor, elige tus preferencias de cookies a continuación.",
+            acceptAll: "Aceptar todo",
+            rejectAll: "Rechazar todo",
+            details: "Detalles",
+            save: "Guardar preferencias",
+            necessary: "Necesarias",
+            necessaryDesc: "Esenciales para el funcionamiento del sitio web",
+            analytics: "Analíticas",
+            analyticsDesc: "Nos ayudan a entender cómo los visitantes usan nuestro sitio",
+            marketing: "Marketing",
+            marketingDesc: "Se utilizan para ofrecer publicidad personalizada",
+            functional: "Funcionales",
+            functionalDesc: "Habilitan funcionalidad mejorada y personalización",
+            privacyPolicy: "Política de privacidad",
+            cookieSettings: "Configuración de cookies",
+            poweredBy: "Desarrollado por"
+        },
+        it: {
+            title: "Rispettiamo la tua privacy",
+            description: "Utilizziamo i cookie per migliorare la tua esperienza di navigazione, fornire contenuti personalizzati e analizzare il nostro traffico. Scegli le tue preferenze sui cookie qui sotto.",
+            acceptAll: "Accetta tutto",
+            rejectAll: "Rifiuta tutto",
+            details: "Dettagli",
+            save: "Salva preferenze",
+            necessary: "Necessari",
+            necessaryDesc: "Essenziali per il corretto funzionamento del sito",
+            analytics: "Analitici",
+            analyticsDesc: "Ci aiutano a capire come i visitatori usano il nostro sito",
+            marketing: "Marketing",
+            marketingDesc: "Utilizzati per fornire pubblicità personalizzata",
+            functional: "Funzionali",
+            functionalDesc: "Abilitano funzionalità avanzate e personalizzazione",
+            privacyPolicy: "Informativa sulla privacy",
+            cookieSettings: "Impostazioni cookie",
+            poweredBy: "Fornito da"
+        },
+        nl: {
+            title: "We respecteren uw privacy",
+            description: "We gebruiken cookies om uw browse-ervaring te verbeteren, gepersonaliseerde content te leveren en ons verkeer te analyseren. Kies hieronder uw cookievoorkeuren.",
+            acceptAll: "Alles accepteren",
+            rejectAll: "Alles weigeren",
+            details: "Details",
+            save: "Voorkeuren opslaan",
+            necessary: "Noodzakelijk",
+            necessaryDesc: "Essentieel voor het goed functioneren van de website",
+            analytics: "Analytics",
+            analyticsDesc: "Helpen ons begrijpen hoe bezoekers onze site gebruiken",
+            marketing: "Marketing",
+            marketingDesc: "Gebruikt om gepersonaliseerde advertenties te leveren",
+            functional: "Functioneel",
+            functionalDesc: "Schakelen verbeterde functionaliteit en personalisatie in",
+            privacyPolicy: "Privacybeleid",
+            cookieSettings: "Cookie-instellingen",
+            poweredBy: "Aangedreven door"
+        },
+        pl: {
+            title: "Szanujemy Twoją prywatność",
+            description: "Używamy plików cookie, aby ulepszyć Twoje doświadczenie przeglądania, dostarczać spersonalizowane treści i analizować nasz ruch. Wybierz swoje preferencje dotyczące plików cookie poniżej.",
+            acceptAll: "Zaakceptuj wszystko",
+            rejectAll: "Odrzuć wszystko",
+            details: "Szczegóły",
+            save: "Zapisz preferencje",
+            necessary: "Niezbędne",
+            necessaryDesc: "Niezbędne do prawidłowego funkcjonowania strony",
+            analytics: "Analityczne",
+            analyticsDesc: "Pomagają nam zrozumieć, jak odwiedzający korzystają z naszej strony",
+            marketing: "Marketingowe",
+            marketingDesc: "Używane do dostarczania spersonalizowanych reklam",
+            functional: "Funkcjonalne",
+            functionalDesc: "Umożliwiają ulepszoną funkcjonalność i personalizację",
+            privacyPolicy: "Polityka prywatności",
+            cookieSettings: "Ustawienia plików cookie",
+            poweredBy: "Obsługiwane przez"
+        },
+        pt: {
+            title: "Respeitamos a sua privacidade",
+            description: "Usamos cookies para melhorar sua experiência de navegação, fornecer conteúdo personalizado e analisar nosso tráfego. Por favor, escolha suas preferências de cookies abaixo.",
+            acceptAll: "Aceitar tudo",
+            rejectAll: "Rejeitar tudo",
+            details: "Detalhes",
+            save: "Guardar preferências",
+            necessary: "Necessários",
+            necessaryDesc: "Essenciais para o funcionamento adequado do site",
+            analytics: "Analíticos",
+            analyticsDesc: "Ajudam-nos a entender como os visitantes usam nosso site",
+            marketing: "Marketing",
+            marketingDesc: "Usados para fornecer anúncios personalizados",
+            functional: "Funcionais",
+            functionalDesc: "Permitem funcionalidade aprimorada e personalização",
+            privacyPolicy: "Política de privacidade",
+            cookieSettings: "Configurações de cookies",
+            poweredBy: "Desenvolvido por"
+        },
+        hr: {
+            title: "Cijenimo vašu privatnost",
+            description: "Koristimo kolačiće za poboljšanje vašeg iskustva pregledavanja, pružanje personaliziranog sadržaja i analizu našeg prometa. Molimo odaberite svoje postavke kolačića ispod.",
+            acceptAll: "Prihvati sve",
+            rejectAll: "Odbaci sve",
+            details: "Detalji",
+            save: "Spremi postavke",
+            necessary: "Nužni",
+            necessaryDesc: "Bitni za pravilno funkcioniranje web stranice",
+            analytics: "Analitički",
+            analyticsDesc: "Pomažu nam razumjeti kako posjetitelji koriste našu stranicu",
+            marketing: "Marketinški",
+            marketingDesc: "Koriste se za prikazivanje personaliziranih oglasa",
+            functional: "Funkcionalni",
+            functionalDesc: "Omogućavaju poboljšanu funkcionalnost i personalizaciju",
+            privacyPolicy: "Pravila privatnosti",
+            cookieSettings: "Postavke kolačića",
+            poweredBy: "Omogućeno od"
+        },
+        cs: {
+            title: "Respektujeme vaše soukromí",
+            description: "Používáme cookies ke zlepšení vašeho prohlížení, poskytování personalizovaného obsahu a analýze našeho provozu. Vyberte si prosím své preference cookies níže.",
+            acceptAll: "Přijmout vše",
+            rejectAll: "Odmítnout vše",
+            details: "Podrobnosti",
+            save: "Uložit preference",
+            necessary: "Nezbytné",
+            necessaryDesc: "Nezbytné pro správné fungování webu",
+            analytics: "Analytické",
+            analyticsDesc: "Pomáhají nám pochopit, jak návštěvníci používají náš web",
+            marketing: "Marketingové",
+            marketingDesc: "Používají se k zobrazování personalizované reklamy",
+            functional: "Funkční",
+            functionalDesc: "Umožňují vylepšenou funkčnost a personalizaci",
+            privacyPolicy: "Zásady ochrany osobních údajů",
+            cookieSettings: "Nastavení cookies",
+            poweredBy: "Poskytuje"
+        }
+    };
+
+    // Banner CSS styles
+    const styles = `
+        .kg-consent-banner {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 999999;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
+        }
+
+        .kg-consent-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999998;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .kg-consent-container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: var(--kg-bg-color, #ffffff);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .kg-consent-content {
+            padding: 32px;
+        }
+
+        .kg-consent-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .kg-consent-logo {
+            height: 40px;
+            width: auto;
+        }
+
+        .kg-consent-title {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--kg-text-color, #111827);
+            margin: 0;
+            flex: 1;
+        }
+
+        .kg-consent-description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--kg-text-color, #111827);
+            margin: 0 0 24px 0;
+            opacity: 0.8;
+        }
+
+        .kg-consent-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .kg-consent-button {
+            flex: 1;
+            min-width: 120px;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .kg-consent-button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .kg-consent-button:focus {
+            outline: 2px solid var(--kg-primary-color, #2563eb);
+            outline-offset: 2px;
+        }
+
+        .kg-consent-button.primary {
+            background: var(--kg-primary-color, #2563eb);
+            color: var(--kg-primary-text, #ffffff);
+        }
+
+        .kg-consent-button.secondary {
+            background: var(--kg-secondary-color, #f3f4f6);
+            color: var(--kg-secondary-text, #374151);
+        }
+
+        .kg-consent-details {
+            margin-top: 24px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            padding-top: 24px;
+            display: none;
+        }
+
+        .kg-consent-details.active {
+            display: block;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .kg-consent-category {
+            margin-bottom: 20px;
+        }
+
+        .kg-consent-category-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .kg-consent-category-title {
+            font-size: 18px;
+            font-weight: 500;
+            color: var(--kg-text-color, #111827);
+        }
+
+        .kg-consent-category-description {
+            font-size: 14px;
+            color: var(--kg-text-color, #111827);
+            opacity: 0.7;
+            margin: 0 0 12px 0;
+        }
+
+        .kg-consent-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+        }
+
+        .kg-consent-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .kg-consent-switch-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: 0.3s;
+            border-radius: 24px;
+        }
+
+        .kg-consent-switch-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: 0.3s;
+            border-radius: 50%;
+        }
+
+        .kg-consent-switch input:checked + .kg-consent-switch-slider {
+            background-color: var(--kg-primary-color, #2563eb);
+        }
+
+        .kg-consent-switch input:checked + .kg-consent-switch-slider:before {
+            transform: translateX(24px);
+        }
+
+        .kg-consent-switch input:disabled + .kg-consent-switch-slider {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .kg-consent-footer {
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--kg-text-color, #111827);
+            opacity: 0.6;
+        }
+
+        .kg-consent-footer a {
+            color: var(--kg-primary-color, #2563eb);
+            text-decoration: none;
+        }
+
+        .kg-consent-footer a:hover {
+            text-decoration: underline;
+        }
+
+        #kg-consent-banner-toggle {
+            position: fixed !important;
+            bottom: 20px !important;
+            left: 20px !important;
+            width: 48px !important;
+            height: 48px !important;
+            background: var(--kg-primary-color, #2563eb) !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.2s ease !important;
+            z-index: 999997 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        #kg-consent-banner-toggle:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        #kg-consent-banner-toggle svg {
+            width: 24px !important;
+            height: 24px !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        @media (max-width: 600px) {
+            .kg-consent-container {
+                margin: 0;
+                border-radius: 12px 12px 0 0;
+                max-width: 100%;
+            }
+
+            .kg-consent-buttons {
+                gap: 8px;
+            }
+
+            .kg-consent-button {
+                padding: 10px 12px;
+                font-size: 13px;
+                min-width: auto;
+                flex: 1 1 calc(33.333% - 8px);
+            }
+        }
+    `;
+
+    // Helper functions
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    }
+
+    function setCookie(name, value, days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        const expires = `expires=${date.toUTCString()}`;
+        document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Lax`;
+    }
+
+    function detectLanguage() {
+        const config = window.kgConsentConfig || {};
+        
+        if (config.autoDetectLanguage) {
+            // Try to detect from URL
+            const pathMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
+            if (pathMatch && translations[pathMatch[1]]) {
+                return pathMatch[1];
+            }
+            
+            // Try to detect from HTML lang attribute
+            const htmlLang = document.documentElement.lang;
+            if (htmlLang) {
+                const langCode = htmlLang.substring(0, 2).toLowerCase();
+                if (translations[langCode]) {
+                    return langCode;
+                }
+            }
+        }
+        
+        return config.defaultLanguage || 'en';
+    }
+
+    function getTranslation(key) {
+        const lang = detectLanguage();
+        return translations[lang][key] || translations.en[key];
+    }
+
+    function createBanner() {
+        const config = window.kgConsentConfig || {};
+        const bannerId = config.bannerId || 'kg-consent-banner';
+        
+        // Check if banner already exists
+        if (document.getElementById(bannerId)) {
+            return;
+        }
+
+        // Create styles
+        const styleSheet = document.createElement('style');
+        styleSheet.textContent = styles.replace(/var\(--kg-bg-color, #ffffff\)/g, `var(--kg-bg-color, ${config.appearance?.backgroundColor || '#ffffff'})`)
+            .replace(/var\(--kg-text-color, #111827\)/g, `var(--kg-text-color, ${config.appearance?.textColor || '#111827'})`)
+            .replace(/var\(--kg-primary-color, #2563eb\)/g, `var(--kg-primary-color, ${config.appearance?.primaryColor || '#2563eb'})`)
+            .replace(/var\(--kg-primary-text, #ffffff\)/g, `var(--kg-primary-text, ${config.appearance?.primaryTextColor || '#ffffff'})`)
+            .replace(/var\(--kg-secondary-color, #f3f4f6\)/g, `var(--kg-secondary-color, ${config.appearance?.secondaryColor || '#f3f4f6'})`)
+            .replace(/var\(--kg-secondary-text, #374151\)/g, `var(--kg-secondary-text, ${config.appearance?.secondaryTextColor || '#374151'})`);
+        document.head.appendChild(styleSheet);
+
+        // Create overlay
+        const overlay = document.createElement('div');
+        overlay.className = 'kg-consent-overlay';
+        overlay.id = `${bannerId}-overlay`;
+
+        // Create banner HTML
+        const banner = document.createElement('div');
+        banner.className = 'kg-consent-banner';
+        banner.id = bannerId;
+        banner.setAttribute('role', 'dialog');
+        banner.setAttribute('aria-labelledby', `${bannerId}-title`);
+        banner.setAttribute('aria-modal', 'true');
+
+        // Get privacy policy URL for current language
+        const currentLang = detectLanguage();
+        const privacyUrl = config.privacyPolicyUrls?.[currentLang] || '#';
+
+        let headerHTML = '';
+        if (config.logos?.website || config.logos?.company) {
+            headerHTML = '<div class="kg-consent-header">';
+            if (config.logos.website) {
+                headerHTML += `<img src="${config.logos.website}" alt="Website Logo" class="kg-consent-logo">`;
+            }
+            headerHTML += `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
+            if (config.logos.company) {
+                headerHTML += `<img src="${config.logos.company}" alt="Company Logo" class="kg-consent-logo">`;
+            }
+            headerHTML += '</div>';
+        } else {
+            headerHTML = `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
+        }
+
+        banner.innerHTML = `
+            <div class="kg-consent-container">
+                <div class="kg-consent-content">
+                    ${headerHTML}
+                    <p class="kg-consent-description">${getTranslation('description')}</p>
+                    
+                    <div class="kg-consent-buttons">
+                        <button class="kg-consent-button primary" id="${bannerId}-accept-all">
+                            ${getTranslation('acceptAll')}
+                        </button>
+                        <button class="kg-consent-button secondary" id="${bannerId}-details">
+                            ${getTranslation('details')}
+                        </button>
+                        <button class="kg-consent-button secondary" id="${bannerId}-reject-all">
+                            ${getTranslation('rejectAll')}
+                        </button>
+                    </div>
+
+                    <div class="kg-consent-details" id="${bannerId}-details-section">
+                        <div class="kg-consent-category">
+                            <div class="kg-consent-category-header">
+                                <span class="kg-consent-category-title">${getTranslation('necessary')}</span>
+                                <label class="kg-consent-switch">
+                                    <input type="checkbox" checked disabled data-category="necessary">
+                                    <span class="kg-consent-switch-slider"></span>
+                                </label>
+                            </div>
+                            <p class="kg-consent-category-description">${getTranslation('necessaryDesc')}</p>
+                        </div>
+
+                        <div class="kg-consent-category">
+                            <div class="kg-consent-category-header">
+                                <span class="kg-consent-category-title">${getTranslation('analytics')}</span>
+                                <label class="kg-consent-switch">
+                                    <input type="checkbox" data-category="analytics">
+                                    <span class="kg-consent-switch-slider"></span>
+                                </label>
+                            </div>
+                            <p class="kg-consent-category-description">${getTranslation('analyticsDesc')}</p>
+                        </div>
+
+                        <div class="kg-consent-category">
+                            <div class="kg-consent-category-header">
+                                <span class="kg-consent-category-title">${getTranslation('marketing')}</span>
+                                <label class="kg-consent-switch">
+                                    <input type="checkbox" data-category="marketing">
+                                    <span class="kg-consent-switch-slider"></span>
+                                </label>
+                            </div>
+                            <p class="kg-consent-category-description">${getTranslation('marketingDesc')}</p>
+                        </div>
+
+                        <div class="kg-consent-category">
+                            <div class="kg-consent-category-header">
+                                <span class="kg-consent-category-title">${getTranslation('functional')}</span>
+                                <label class="kg-consent-switch">
+                                    <input type="checkbox" data-category="functional">
+                                    <span class="kg-consent-switch-slider"></span>
+                                </label>
+                            </div>
+                            <p class="kg-consent-category-description">${getTranslation('functionalDesc')}</p>
+                        </div>
+
+                        <button class="kg-consent-button primary" id="${bannerId}-save" style="width: 100%; margin-top: 16px;">
+                            ${getTranslation('save')}
+                        </button>
+                    </div>
+
+                    <div class="kg-consent-footer">
+                        <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">${getTranslation('privacyPolicy')}</a>
+                        ${config.logos?.company ? `<span>${getTranslation('poweredBy')} KG Media</span>` : ''}
+                    </div>
+                </div>
+            </div>
+        `;
+
+        // Add to page
+        document.body.appendChild(overlay);
+        document.body.appendChild(banner);
+
+        // Add event listeners
+        setupEventListeners(bannerId);
+    }
+
+    function setupEventListeners(bannerId) {
+        const config = window.kgConsentConfig || {};
+        const banner = document.getElementById(bannerId);
+        const overlay = document.getElementById(`${bannerId}-overlay`);
+        const detailsSection = document.getElementById(`${bannerId}-details-section`);
+
+        // Accept all
+        document.getElementById(`${bannerId}-accept-all`).addEventListener('click', function() {
+            const consent = {
+                ad_storage: 'granted',
+                ad_user_data: 'granted',
+                ad_personalization: 'granted',
+                analytics_storage: 'granted',
+                functionality_storage: 'granted',
+                personalization_storage: 'granted',
+                security_storage: 'granted'
+            };
+            saveConsent(consent);
+            hideBanner(bannerId);
+        });
+
+        // Reject all
+        document.getElementById(`${bannerId}-reject-all`).addEventListener('click', function() {
+            const consent = {
+                ad_storage: 'denied',
+                ad_user_data: 'denied',
+                ad_personalization: 'denied',
+                analytics_storage: 'denied',
+                functionality_storage: 'denied',
+                personalization_storage: 'denied',
+                security_storage: 'granted'
+            };
+            saveConsent(consent);
+            hideBanner(bannerId);
+        });
+
+        // Show details
+        document.getElementById(`${bannerId}-details`).addEventListener('click', function() {
+            detailsSection.classList.add('active');
+        });
+
+        // Save selected
+        document.getElementById(`${bannerId}-save`).addEventListener('click', function() {
+            const consent = {
+                ad_storage: banner.querySelector('[data-category="marketing"]').checked ? 'granted' : 'denied',
+                ad_user_data: banner.querySelector('[data-category="marketing"]').checked ? 'granted' : 'denied',
+                ad_personalization: banner.querySelector('[data-category="marketing"]').checked ? 'granted' : 'denied',
+                analytics_storage: banner.querySelector('[data-category="analytics"]').checked ? 'granted' : 'denied',
+                functionality_storage: banner.querySelector('[data-category="functional"]').checked ? 'granted' : 'denied',
+                personalization_storage: banner.querySelector('[data-category="functional"]').checked ? 'granted' : 'denied',
+                security_storage: 'granted'
+            };
+            saveConsent(consent);
+            hideBanner(bannerId);
+        });
+
+        // Keyboard navigation (removed ESC key handler)
+        banner.addEventListener('keydown', function(e) {
+            // Only handle Tab key for focus management
+        });
+
+        // Focus trap
+        const focusableElements = banner.querySelectorAll('button, input, a');
+        const firstFocusable = focusableElements[0];
+        const lastFocusable = focusableElements[focusableElements.length - 1];
+
+        firstFocusable.focus();
+
+        banner.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    if (document.activeElement === firstFocusable) {
+                        e.preventDefault();
+                        lastFocusable.focus();
+                    }
+                } else {
+                    if (document.activeElement === lastFocusable) {
+                        e.preventDefault();
+                        firstFocusable.focus();
+                    }
+                }
+            }
+        });
+    }
+
+    function saveConsent(consent) {
+        const config = window.kgConsentConfig || {};
+        const cookieName = config.cookieName || 'kg_consent_preferences';
+        const cookieExpiry = config.cookieExpiry || 365;
+
+        // Save to cookie
+        setCookie(cookieName, JSON.stringify(consent), cookieExpiry);
+
+        // Call callback if provided
+        if (typeof config.onConsentUpdate === 'function') {
+            config.onConsentUpdate(consent);
+        }
+    }
+
+    function hideBanner(bannerId) {
+        const banner = document.getElementById(bannerId);
+        const overlay = document.getElementById(`${bannerId}-overlay`);
+        
+        if (banner) banner.remove();
+        if (overlay) overlay.remove();
+
+        // Show toggle button
+        showToggleButton(bannerId);
+    }
+
+    function showToggleButton(bannerId) {
+        const existingToggle = document.getElementById(`${bannerId}-toggle`);
+        if (existingToggle) return;
+
+        const toggle = document.createElement('button');
+        toggle.id = `${bannerId}-toggle`;
+        toggle.setAttribute('aria-label', getTranslation('cookieSettings'));
+        toggle.setAttribute('title', getTranslation('cookieSettings'));
+        toggle.style.cssText = `
+            position: fixed !important;
+            bottom: 20px !important;
+            left: 20px !important;
+            width: 48px !important;
+            height: 48px !important;
+            background: ${window.kgConsentConfig?.appearance?.primaryColor || '#2563eb'} !important;
+            color: white !important;
+            border: none !important;
+            border-radius: 50% !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            z-index: 999997 !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            transition: all 0.2s ease !important;
+        `;
+        
+        toggle.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                <circle cx="7.5" cy="7.5" r="1.5"/>
+                <circle cx="7" cy="12" r="1"/>
+                <circle cx="10.5" cy="8.5" r="1"/>
+                <circle cx="15" cy="9" r="1.5"/>
+                <circle cx="11" cy="13" r="1.5"/>
+                <circle cx="16" cy="13" r="1"/>
+                <circle cx="16.5" cy="16.5" r="1"/>
+                <circle cx="13" cy="16" r="1.5"/>
+                <circle cx="9" cy="16" r="1"/>
+            </svg>
+        `;
+
+        toggle.addEventListener('click', function() {
+            toggle.remove();
+            createBanner();
+            loadSavedPreferences();
+        });
+
+        toggle.addEventListener('mouseenter', function() {
+            toggle.style.transform = 'scale(1.1)';
+            toggle.style.boxShadow = '0 6px 20px rgba(0, 0, 0, 0.2)';
+        });
+
+        toggle.addEventListener('mouseleave', function() {
+            toggle.style.transform = 'scale(1)';
+            toggle.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
+        });
+
+        document.body.appendChild(toggle);
+    }
+
+    function loadSavedPreferences() {
+        const config = window.kgConsentConfig || {};
+        const cookieName = config.cookieName || 'kg_consent_preferences';
+        const savedConsent = getCookie(cookieName);
+
+        if (savedConsent) {
+            const consent = JSON.parse(savedConsent);
+            const banner = document.querySelector('.kg-consent-banner');
+            
+            if (banner && consent && typeof consent === 'object') {
+                // Set switches based on saved preferences
+                banner.querySelector('[data-category="analytics"]').checked = consent.analytics_storage === 'granted';
+                banner.querySelector('[data-category="marketing"]').checked = consent.ad_storage === 'granted';
+                banner.querySelector('[data-category="functional"]').checked = consent.functionality_storage === 'granted';
+            }
+        }
+    }
+
+    // Initialize
+    window.initKGConsentBanner = function() {
+        const config = window.kgConsentConfig || {};
+        const cookieName = config.cookieName || 'kg_consent_preferences';
+        const savedConsent = getCookie(cookieName);
+
+        if (!savedConsent) {
+            // Show banner if no consent saved
+            createBanner();
+        } else {
+            // Show toggle button if consent already given
+            showToggleButton(config.bannerId || 'kg-consent-banner');
+        }
+    };
+
+    // Auto-init if config is already available
+    if (window.kgConsentConfig) {
+        window.initKGConsentBanner();
+    }
+})();
