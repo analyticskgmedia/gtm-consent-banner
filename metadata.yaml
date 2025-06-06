@@ -1,0 +1,15 @@
+homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
+documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
+versions:
+  - sha: "initial-release"
+    changeNotes: |
+      Initial release of Advanced Consent Mode v2 Banner
+      - Full Google Consent Mode v2 support
+      - Two-step consent flow
+      - Multi-language support (10 languages)
+      - Customizable appearance
+      - WCAG compliant
+      - Responsive design
+      - Cookie preference management
+      - Privacy policy link support
+      - Logo customization options
