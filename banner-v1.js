@@ -248,16 +248,27 @@
         }
 
         .kg-consent-header {
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: center;
             gap: 16px;
             margin-bottom: 16px;
         }
 
-        .kg-consent-logo {
+        .kg-consent-logo-left {
+            justify-self: start;
             height: 40px;
             width: auto;
+        }
+
+        .kg-consent-logo-right {
+            justify-self: end;
+            height: 40px;
+            width: auto;
+        }
+
+        .kg-consent-logo-mobile-hide {
+            display: block;
         }
 
         .kg-consent-title {
@@ -267,6 +278,7 @@
             margin: 0;
             text-align: center;
             line-height: normal;
+            grid-column: 2;
         }
 
         .kg-consent-description {
@@ -435,6 +447,10 @@
             text-decoration: underline;
         }
 
+        .kg-consent-footer span {
+            white-space: nowrap;
+        }
+
         #kg-consent-banner-toggle {
             position: fixed !important;
             bottom: 20px !important;
@@ -473,6 +489,28 @@
                 margin: 0;
                 border-radius: 12px 12px 0 0;
                 max-width: 100%;
+            }
+
+            .kg-consent-header {
+                grid-template-columns: auto 1fr;
+                gap: 12px;
+            }
+
+            .kg-consent-logo-left {
+                max-width: 80px;
+                height: auto;
+                max-height: 40px;
+                object-fit: contain;
+            }
+
+            .kg-consent-logo-mobile-hide {
+                display: none !important;
+            }
+
+            .kg-consent-title {
+                font-size: 20px;
+                text-align: left;
+                grid-column: auto;
             }
 
             .kg-consent-buttons {
@@ -567,20 +605,23 @@
         const currentLang = detectLanguage();
         const privacyUrl = config.privacyPolicyUrls?.[currentLang] || '#';
 
-        let headerHTML = '';
-        if (config.logos?.website || config.logos?.company) {
-            headerHTML = '<div class="kg-consent-header">';
-            if (config.logos.website) {
-                headerHTML += `<img src="${config.logos.website}" alt="Website Logo" class="kg-consent-logo">`;
-            }
-            headerHTML += `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
-            if (config.logos.company) {
-                headerHTML += `<img src="${config.logos.company}" alt="Company Logo" class="kg-consent-logo">`;
-            }
-            headerHTML += '</div>';
+        // Create header with grid layout
+        let headerHTML = '<div class="kg-consent-header">';
+        
+        // Left column - Website logo or empty div
+        if (config.logos?.website) {
+            headerHTML += `<img src="${config.logos.website}" alt="Website Logo" class="kg-consent-logo-left">`;
         } else {
-            headerHTML = `<h2 class="kg-consent-title" id="${bannerId}-title" style="margin-bottom: 16px;">${getTranslation('title')}</h2>`;
+            headerHTML += '<div></div>'; // Empty div to maintain grid structure
         }
+        
+        // Center column - Title
+        headerHTML += `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
+        
+        // Right column - Empty div to maintain grid structure
+        headerHTML += '<div></div>'; // Empty div to maintain grid structure
+        
+        headerHTML += '</div>';
 
         banner.innerHTML = `
             <div class="kg-consent-container">
@@ -652,7 +693,7 @@
 
                     <div class="kg-consent-footer">
                         <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">${getTranslation('privacyPolicy')}</a>
-                        ${config.logos?.company ? `<span>${getTranslation('poweredBy')} KG Media</span>` : ''}
+                        <span>${getTranslation('poweredBy')} <a href="https://kg-media.eu/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">KG Media</a></span>
                     </div>
                 </div>
             </div>

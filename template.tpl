@@ -13,7 +13,7 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Advanced Consent Mode v2 Banner",
-    "categories": [
+  "categories": [
     "MARKETING",
     "PERSONALIZATION",
     "UTILITY"
@@ -170,7 +170,7 @@ ___TEMPLATE_PARAMETERS___
   {
     "type": "GROUP",
     "name": "logos",
-    "displayName": "Logos",
+    "displayName": "Logo",
     "groupStyle": "ZIPPY_CLOSED",
     "subParams": [
       {
@@ -179,14 +179,6 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Website Logo URL",
         "simpleValueType": true,
         "help": "URL to your website logo (optional)"
-      },
-      {
-        "type": "TEXT",
-        "name": "companyLogo",
-        "displayName": "Company Logo URL",
-        "simpleValueType": true,
-        "defaultValue": "https://kg-media.eu/wp-content/uploads/2024/06/kgm-logo.png",
-        "help": "URL to your company logo (optional)"
       }
     ]
   },
@@ -346,8 +338,7 @@ const appearance = {
 
 // Logo settings
 const logos = {
-  website: data.websiteLogo,
-  company: data.companyLogo
+  website: data.websiteLogo
 };
 
 // Privacy policy URLs
@@ -622,45 +613,6 @@ ___WEB_PERMISSIONS___
                 "mapValue": [
                   {
                     "type": 1,
-                    "string": "gtag"
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  },
-                  {
-                    "type": 8,
-                    "boolean": false
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  }
-                ]
-              },
-              {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "key"
-                  },
-                  {
-                    "type": 1,
-                    "string": "read"
-                  },
-                  {
-                    "type": 1,
-                    "string": "write"
-                  },
-                  {
-                    "type": 1,
-                    "string": "execute"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
                     "string": "initKGConsentBanner"
                   },
                   {
@@ -713,6 +665,45 @@ ___WEB_PERMISSIONS___
                   {
                     "type": 8,
                     "boolean": false
+                  }
+                ]
+              },
+              {
+                "type": 3,
+                "mapKey": [
+                  {
+                    "type": 1,
+                    "string": "key"
+                  },
+                  {
+                    "type": 1,
+                    "string": "read"
+                  },
+                  {
+                    "type": 1,
+                    "string": "write"
+                  },
+                  {
+                    "type": 1,
+                    "string": "execute"
+                  }
+                ],
+                "mapValue": [
+                  {
+                    "type": 1,
+                    "string": "gtag"
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
+                  },
+                  {
+                    "type": 8,
+                    "boolean": false
+                  },
+                  {
+                    "type": 8,
+                    "boolean": true
                   }
                 ]
               }
@@ -974,68 +965,6 @@ ___WEB_PERMISSIONS___
                 "mapValue": [
                   {
                     "type": 1,
-                    "string": "ads_data_redaction"
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  }
-                ]
-              },
-              {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "consentType"
-                  },
-                  {
-                    "type": 1,
-                    "string": "read"
-                  },
-                  {
-                    "type": 1,
-                    "string": "write"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
-                    "string": "url_passthrough"
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  }
-                ]
-              },
-              {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "consentType"
-                  },
-                  {
-                    "type": 1,
-                    "string": "read"
-                  },
-                  {
-                    "type": 1,
-                    "string": "write"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
                     "string": "wait_for_update"
                   },
                   {
@@ -1111,6 +1040,12 @@ Features:
 - Keyboard navigation
 - WCAG compliance
 - Lightweight implementation
+- Optional floating settings button
+
+Version 1.1:
+- Added floating button position control
+- Removed company logo field
+- Improved mobile responsiveness
 
 For the external JavaScript file and language translations, visit:
 https://github.com/analyticskgmedia/gtm-consent-banner
