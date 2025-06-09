@@ -250,6 +250,7 @@
         .kg-consent-header {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 16px;
             margin-bottom: 16px;
         }
@@ -264,7 +265,8 @@
             font-weight: 600;
             color: var(--kg-text-color, #111827);
             margin: 0;
-            flex: 1;
+            text-align: center;
+            line-height: normal;
         }
 
         .kg-consent-description {
@@ -273,6 +275,7 @@
             color: var(--kg-text-color, #111827);
             margin: 0 0 24px 0;
             opacity: 0.8;
+            text-align: justify;
         }
 
         .kg-consent-buttons {
@@ -576,7 +579,7 @@
             }
             headerHTML += '</div>';
         } else {
-            headerHTML = `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
+            headerHTML = `<h2 class="kg-consent-title" id="${bannerId}-title" style="margin-bottom: 16px;">${getTranslation('title')}</h2>`;
         }
 
         banner.innerHTML = `
