@@ -26,7 +26,7 @@
             functionalDesc: "Enable enhanced functionality and personalization",
             privacyPolicy: "Privacy Policy",
             cookieSettings: "Cookie Settings",
-            poweredBy: "Powered by"
+            poweredBy: "Powered by:"
         },
         de: {
             title: "Wir respektieren Ihre Privatsphäre",
@@ -45,7 +45,7 @@
             functionalDesc: "Ermöglichen erweiterte Funktionalität und Personalisierung",
             privacyPolicy: "Datenschutzerklärung",
             cookieSettings: "Cookie-Einstellungen",
-            poweredBy: "Bereitgestellt von"
+            poweredBy: "Bereitgestellt von:"
         },
         fr: {
             title: "Nous respectons votre vie privée",
@@ -64,7 +64,7 @@
             functionalDesc: "Active des fonctionnalités et une personnalisation améliorées",
             privacyPolicy: "Politique de confidentialité",
             cookieSettings: "Paramètres des cookies",
-            poweredBy: "Propulsé par"
+            poweredBy: "Propulsé par:"
         },
         es: {
             title: "Valoramos tu privacidad",
@@ -83,7 +83,7 @@
             functionalDesc: "Habilitan funcionalidad mejorada y personalización",
             privacyPolicy: "Política de privacidad",
             cookieSettings: "Configuración de cookies",
-            poweredBy: "Desarrollado por"
+            poweredBy: "Desarrollado por:"
         },
         it: {
             title: "Rispettiamo la tua privacy",
@@ -102,7 +102,7 @@
             functionalDesc: "Abilitano funzionalità avanzate e personalizzazione",
             privacyPolicy: "Informativa sulla privacy",
             cookieSettings: "Impostazioni cookie",
-            poweredBy: "Fornito da"
+            poweredBy: "Fornito da:"
         },
         nl: {
             title: "We respecteren uw privacy",
@@ -121,7 +121,7 @@
             functionalDesc: "Schakelen verbeterde functionaliteit en personalisatie in",
             privacyPolicy: "Privacybeleid",
             cookieSettings: "Cookie-instellingen",
-            poweredBy: "Aangedreven door"
+            poweredBy: "Aangedreven door:"
         },
         pl: {
             title: "Szanujemy Twoją prywatność",
@@ -140,7 +140,7 @@
             functionalDesc: "Umożliwiają ulepszoną funkcjonalność i personalizację",
             privacyPolicy: "Polityka prywatności",
             cookieSettings: "Ustawienia plików cookie",
-            poweredBy: "Obsługiwane przez"
+            poweredBy: "Obsługiwane przez:"
         },
         pt: {
             title: "Respeitamos a sua privacidade",
@@ -159,7 +159,7 @@
             functionalDesc: "Permitem funcionalidade aprimorada e personalização",
             privacyPolicy: "Política de privacidade",
             cookieSettings: "Configurações de cookies",
-            poweredBy: "Desenvolvido por"
+            poweredBy: "Desenvolvido por:"
         },
         hr: {
             title: "Cijenimo vašu privatnost",
@@ -178,7 +178,7 @@
             functionalDesc: "Omogućavaju poboljšanu funkcionalnost i personalizaciju",
             privacyPolicy: "Pravila privatnosti",
             cookieSettings: "Postavke kolačića",
-            poweredBy: "Omogućeno od"
+            poweredBy: "Omogućeno od:"
         },
         cs: {
             title: "Respektujeme vaše soukromí",
@@ -197,7 +197,7 @@
             functionalDesc: "Umožňují vylepšenou funkčnost a personalizaci",
             privacyPolicy: "Zásady ochrany osobních údajů",
             cookieSettings: "Nastavení cookies",
-            poweredBy: "Poskytuje"
+            poweredBy: "Poskytuje:"
         }
     };
 
@@ -249,7 +249,7 @@
 
         .kg-consent-header {
             display: grid;
-            grid-template-columns: 1fr auto 1fr;
+            grid-template-columns: minmax(auto, 1fr) auto minmax(auto, 1fr);
             align-items: center;
             gap: 16px;
             margin-bottom: 16px;
@@ -259,6 +259,8 @@
             justify-self: start;
             height: 40px;
             width: auto;
+            max-width: 200px;
+            object-fit: contain;
         }
 
         .kg-consent-logo-right {
@@ -497,7 +499,7 @@
             }
 
             .kg-consent-logo-left {
-                max-width: 80px;
+                max-width: 120px;
                 height: auto;
                 max-height: 40px;
                 object-fit: contain;
