@@ -1,14 +1,14 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-  - sha: "9223465c133d8b631d72eb76472cdfa477026ae0"
+  - sha: "66bb53361f03c6e05b65398de1c0b417bf6ddfed"
     changeNotes: |
       Version 1.1 - Enhanced Floating Button Control
       - Added option to disable floating settings button
       - Added floating button position control (4 corners)
       - Improved configuration flexibility
       - All previous features remain unchanged
-  - sha: "REPLACE_WITH_YOUR_ORIGINAL_COMMIT_SHA"
+  - sha: "0b0494e431d6bd08961046c339cb9728299d1302"
     changeNotes: |
       Initial release of Advanced Consent Mode v2 Banner
       - Full Google Consent Mode v2 support
