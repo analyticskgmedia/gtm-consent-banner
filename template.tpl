@@ -185,7 +185,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "companyLogo",
         "displayName": "Company Logo URL",
         "simpleValueType": true,
-        "defaultValue": "https://kg-media.eu/banner/kg-logo.svg",
+        "defaultValue": "https://kg-media.eu/wp-content/uploads/2024/06/kgm-logo.png",
         "help": "URL to your company logo (optional)"
       }
     ]
