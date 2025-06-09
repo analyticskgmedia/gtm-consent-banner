@@ -1,7 +1,7 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-  - sha: "fb104aab62f4ead0c23479db84a4c407507694d7"
+  - sha: "c86f709cc54cbd71a021bc40b2daae0023354196"
     changeNotes: |
       Version 1.1 - Enhanced Floating Button Control
       - Added option to disable floating settings button
