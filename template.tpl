@@ -13,8 +13,13 @@ ___INFO___
   "version": 1,
   "securityGroups": [],
   "displayName": "Advanced Consent Mode v2 Banner",
+    "categories": [
+    "MARKETING",
+    "PERSONALIZATION",
+    "UTILITY"
+  ],
   "brand": {
-    "id": "brand_dummy",
+    "id": "kg_media",
     "displayName": "KG Media",
     "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
   },
