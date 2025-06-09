@@ -437,7 +437,7 @@
             justify-content: space-between;
             font-size: 12px;
             color: var(--kg-text-color, #111827);
-            opacity: 0.6;
+            opacity: 0.8;
         }
 
         .kg-consent-footer a {
@@ -449,8 +449,13 @@
             text-decoration: underline;
         }
 
-        .kg-consent-footer span {
+        .kg-consent-footer p {
+            margin: 0;
+            padding: 0;
             white-space: nowrap;
+            font-size: inherit;
+            color: inherit;
+            opacity: inherit;
         }
 
         #kg-consent-banner-toggle {
@@ -695,7 +700,7 @@
 
                     <div class="kg-consent-footer">
                         <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">${getTranslation('privacyPolicy')}</a>
-                        <span>${getTranslation('poweredBy')} <a href="https://kg-media.eu/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">KG Media</a></span>
+                        <p>${getTranslation('poweredBy')} <a href="https://kg-media.eu/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">KG Media</a></p>
                     </div>
                 </div>
             </div>
