@@ -147,7 +147,7 @@ This template is provided under the MIT License. See LICENSE file for details.
 
 For issues or questions:
 - GitHub Issues: [https://github.com/analyticskgmedia/gtm-consent-banner/issues](https://github.com/analyticskgmedia/gtm-consent-banner/issues)
-- Email: support@kg-media.eu
+- Email: info@kg-media.hr
 
 ## Contributing
 
