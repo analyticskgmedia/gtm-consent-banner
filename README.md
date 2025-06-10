@@ -17,7 +17,7 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 
 ### 1. Upload the Template to GTM
 
-1. Download the template file: `gtm-consent-banner-template.tpl`
+1. Download the template file: `template.tpl`
 2. In GTM, go to **Templates** → **Tag Templates** → **New**
 3. Click the three dots menu → **Import**
 4. Select the template file and import it
@@ -49,8 +49,8 @@ Or use your own hosting location and update the script URL in the template setti
 
 ### Consent Mode Settings
 
-- **Enable ads_data_redaction**: Redact ads data when consent is denied
-- **Enable url_passthrough**: Pass ad click information through URLs
+- **ads_data_redaction**: Redact ads data when consent is denied (default: enabled)
+- **url_passthrough**: Pass ad click information through URLs (default: enabled)
 - **Wait for update**: Milliseconds to wait for consent (default: 2000)
 
 ### Appearance
