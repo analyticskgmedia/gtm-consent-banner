@@ -24,12 +24,12 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 
 ### 2. Host the JavaScript File
 
-Upload `banner-v1.js` to your server at:
+The file `banner-v1.js` has been uploaded to our server at this URL:
 ```
 https://kg-media.eu/banner/banner-v1.js
 ```
 
-Or use your own hosting location and update the script URL in the template settings.
+You can use your own hosting location and update the script URL in the template settings.
 
 ### 3. Create a New Tag
 
