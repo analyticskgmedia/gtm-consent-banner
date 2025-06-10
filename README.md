@@ -6,7 +6,7 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 
 - ✅ **Google Consent Mode v2** - Full integration with all consent types
 - ✅ **Two-step consent flow** - Users must view details before accepting selected cookies
-- ✅ **Multi-language support** - 10 European languages included
+- ✅ **Multi-language support** - All 24 official EU languages included
 - ✅ **Fully customizable** - Colors, logos, and text can be configured
 - ✅ **WCAG compliant** - Keyboard navigation and screen reader support
 - ✅ **Responsive design** - Works on all devices
@@ -44,7 +44,7 @@ Or use your own hosting location and update the script URL in the template setti
 ### General Settings
 
 - **Banner ID**: Unique identifier for the banner instance
-- **Default Language**: Fallback language (en, de, fr, es, it, nl, pl, pt, hr, cs)
+- **Default Language**: Fallback language (all 24 EU official languages supported)
 - **Auto-detect Language**: Automatically detect from URL path
 
 ### Consent Mode Settings
@@ -62,10 +62,9 @@ Or use your own hosting location and update the script URL in the template setti
 - **Background Color**: Banner background color
 - **Text Color**: Main text color
 
-### Logos
+### Logo
 
 - **Website Logo URL**: Your website logo (optional)
-- **Company Logo URL**: Your company logo (optional)
 
 ### Floating Button Settings
 
@@ -141,13 +140,13 @@ Consent preferences are stored in a cookie named `kg_consent_preferences` (confi
 
 ## License
 
-This template is provided under the MIT License. See LICENSE file for details.
+This template is provided under the Apache License version 2.0. See LICENSE file for details.
 
 ## Support
 
 For issues or questions:
 - GitHub Issues: [https://github.com/analyticskgmedia/gtm-consent-banner/issues](https://github.com/analyticskgmedia/gtm-consent-banner/issues)
-- Email: info@kg-media.hr
+- Email: filip.aldic@kg-media.hr
 
 ## Contributing
 

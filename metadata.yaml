@@ -1,14 +1,23 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
+  - sha: "REPLACE_WITH_NEW_COMMIT_SHA"
+    changeNotes: |
+      Version 1.2 - Complete EU Language Support
+      - Added all 24 official EU languages
+      - Fixed Slovenian language code (si instead of sl)
+      - Improved mobile button layout for better UX
+      - Fixed "Powered by" text to include colon
+      - Enhanced header logo spacing
+      - Increased footer opacity to 0.8
+      All previous features remain unchanged
   - sha: "b30efa673e0721cefafc70a0c48452e47dda51ae"
     changeNotes: |
       Version 1.1 - Enhanced Floating Button Control
       - Added option to disable floating settings button
       - Added floating button position control (4 corners)
       - Improved configuration flexibility
-      - Various UI improvements
-      - All previous features remain unchanged
+      All previous features remain unchanged
   - sha: "0b0494e431d6bd08961046c339cb9728299d1302"
     changeNotes: |
       Initial release of Advanced Consent Mode v2 Banner

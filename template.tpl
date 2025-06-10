@@ -53,15 +53,29 @@ ___TEMPLATE_PARAMETERS___
         "macrosInSelect": true,
         "selectItems": [
           {"value": "en", "displayValue": "English"},
-          {"value": "de", "displayValue": "German"},
-          {"value": "fr", "displayValue": "French"},
-          {"value": "es", "displayValue": "Spanish"},
-          {"value": "it", "displayValue": "Italian"},
+          {"value": "bg", "displayValue": "Bulgarian"},
+          {"value": "hr", "displayValue": "Croatian"},
+          {"value": "cs", "displayValue": "Czech"},
+          {"value": "da", "displayValue": "Danish"},
           {"value": "nl", "displayValue": "Dutch"},
+          {"value": "et", "displayValue": "Estonian"},
+          {"value": "fi", "displayValue": "Finnish"},
+          {"value": "fr", "displayValue": "French"},
+          {"value": "de", "displayValue": "German"},
+          {"value": "el", "displayValue": "Greek"},
+          {"value": "hu", "displayValue": "Hungarian"},
+          {"value": "ga", "displayValue": "Irish"},
+          {"value": "it", "displayValue": "Italian"},
+          {"value": "lv", "displayValue": "Latvian"},
+          {"value": "lt", "displayValue": "Lithuanian"},
+          {"value": "mt", "displayValue": "Maltese"},
           {"value": "pl", "displayValue": "Polish"},
           {"value": "pt", "displayValue": "Portuguese"},
-          {"value": "hr", "displayValue": "Croatian"},
-          {"value": "cs", "displayValue": "Czech"}
+          {"value": "ro", "displayValue": "Romanian"},
+          {"value": "sk", "displayValue": "Slovak"},
+          {"value": "si", "displayValue": "Slovene"},
+          {"value": "es", "displayValue": "Spanish"},
+          {"value": "sv", "displayValue": "Swedish"}
         ],
         "simpleValueType": true,
         "defaultValue": "en"
@@ -200,15 +214,29 @@ ___TEMPLATE_PARAMETERS___
             "type": "SELECT",
             "selectItems": [
               {"value": "en", "displayValue": "English"},
-              {"value": "de", "displayValue": "German"},
-              {"value": "fr", "displayValue": "French"},
-              {"value": "es", "displayValue": "Spanish"},
-              {"value": "it", "displayValue": "Italian"},
+              {"value": "bg", "displayValue": "Bulgarian"},
+              {"value": "hr", "displayValue": "Croatian"},
+              {"value": "cs", "displayValue": "Czech"},
+              {"value": "da", "displayValue": "Danish"},
               {"value": "nl", "displayValue": "Dutch"},
+              {"value": "et", "displayValue": "Estonian"},
+              {"value": "fi", "displayValue": "Finnish"},
+              {"value": "fr", "displayValue": "French"},
+              {"value": "de", "displayValue": "German"},
+              {"value": "el", "displayValue": "Greek"},
+              {"value": "hu", "displayValue": "Hungarian"},
+              {"value": "ga", "displayValue": "Irish"},
+              {"value": "it", "displayValue": "Italian"},
+              {"value": "lv", "displayValue": "Latvian"},
+              {"value": "lt", "displayValue": "Lithuanian"},
+              {"value": "mt", "displayValue": "Maltese"},
               {"value": "pl", "displayValue": "Polish"},
               {"value": "pt", "displayValue": "Portuguese"},
-              {"value": "hr", "displayValue": "Croatian"},
-              {"value": "cs", "displayValue": "Czech"}
+              {"value": "ro", "displayValue": "Romanian"},
+              {"value": "sk", "displayValue": "Slovak"},
+              {"value": "sl", "displayValue": "Slovene"},
+              {"value": "es", "displayValue": "Spanish"},
+              {"value": "sv", "displayValue": "Swedish"}
             ]
           },
           {
@@ -1034,13 +1062,18 @@ This template provides a complete GDPR-compliant consent banner with Google Cons
 
 Features:
 - Two-step consent flow
-- Multi-language support (10 European languages)
+- Multi-language support (all 24 official EU languages)
 - Full customization options
 - Responsive design
-- Keyboard navigation
 - WCAG compliance
 - Lightweight implementation
 - Optional floating settings button
+
+Version 1.2:
+- Added complete EU language support (24 languages)
+- Fixed Slovenian language code (si)
+- Improved mobile button layout
+- UI enhancements
 
 Version 1.1:
 - Added floating button position control
