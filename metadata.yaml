@@ -1,7 +1,7 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-  - sha: "62705883a379fa1a0957b8998df3ca6050839fb6"
+  - sha: "6cc53fe1a0b6fb3160174b57d37fe3dded535255"
     changeNotes: |
       Version 1.2 - Complete EU Language Support
       - Added all 24 official EU languages
