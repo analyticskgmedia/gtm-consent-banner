@@ -29,7 +29,7 @@ The file `banner-v1.js` has been uploaded to our server at this URL:
 https://kg-media.eu/banner/banner-v1.js
 ```
 
-You can use your own hosting location and update the script URL in the template settings.
+Alternatively, you can use your own hosting location and update the script URL in the template settings.
 
 ### 3. Create a New Tag
 
