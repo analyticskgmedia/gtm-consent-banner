@@ -3,30 +3,14 @@ documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main
 versions:
   - sha: "6cc53fe1a0b6fb3160174b57d37fe3dded535255"
     changeNotes: |
-      Version 1.2 - Complete EU Language Support
-      - Added all 24 official EU languages
-      - Fixed Slovenian language code (si instead of sl)
-      - Improved mobile button layout for better UX
-      - Fixed "Powered by" text to include colon
-      - Enhanced header logo spacing
-      - Increased footer opacity to 0.8
-      All previous features remain unchanged
-  - sha: "b30efa673e0721cefafc70a0c48452e47dda51ae"
-    changeNotes: |
-      Version 1.1 - Enhanced Floating Button Control
-      - Added option to disable floating settings button
-      - Added floating button position control (4 corners)
-      - Improved configuration flexibility
-      All previous features remain unchanged
-  - sha: "0b0494e431d6bd08961046c339cb9728299d1302"
-    changeNotes: |
       Initial release of Advanced Consent Mode v2 Banner
-      - Full Google Consent Mode v2 support
-      - Two-step consent flow
-      - Multi-language support (10 languages)
-      - Customizable appearance
-      - WCAG compliant
-      - Responsive design
-      - Cookie preference management
-      - Privacy policy link support
-      - Logo customization options
+      - Full Google Consent Mode v2 support with all consent types
+      - Two-step consent flow for GDPR compliance
+      - All 24 official EU languages supported
+      - Fully customizable appearance (colors, logos, text)
+      - WCAG compliant with keyboard navigation
+      - Responsive design with optimized mobile layout
+      - Optional floating settings button with position control
+      - Cookie-based preference persistence
+      - Privacy policy links configurable per language
+      - Lightweight implementation (~15KB gzipped)
