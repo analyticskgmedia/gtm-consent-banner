@@ -854,17 +854,17 @@
             banner_version: config.bannerVersion || '1.0'
         };
 
-        // Send to Google Apps Script endpoint
-        fetch(config.consentLogEndpoint, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(logData)
-        }).catch(function(error) {
-            console.warn('Consent logging failed:', error);
-        });
+        // Build URL with query parameters for GET request (most reliable for cross-origin)
+        const params = new URLSearchParams();
+        for (const key in logData) {
+            params.append(key, logData[key]);
+        }
+        
+        const url = config.consentLogEndpoint + '?' + params.toString();
+        
+        // Use Image beacon for reliable cross-origin request
+        const img = new Image();
+        img.src = url;
     }
 
     function detectLanguage() {

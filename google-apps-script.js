@@ -36,7 +36,45 @@ const HEADERS = [
 ];
 
 /**
- * Handles POST requests from the consent banner
+ * Handles GET requests from the consent banner (used for cross-origin compatibility)
+ */
+function doGet(e) {
+  try {
+    // Check if this is a data submission (has parameters) or just a test
+    if (e.parameter && e.parameter.consent_id) {
+      // Get or create the sheet
+      const sheet = getOrCreateSheet();
+      
+      // Prepare the row data in the correct order
+      const rowData = HEADERS.map(header => e.parameter[header] || '');
+      
+      // Append the row
+      sheet.appendRow(rowData);
+      
+      // Return 1x1 transparent pixel for image beacon
+      return ContentService
+        .createTextOutput('')
+        .setMimeType(ContentService.MimeType.TEXT);
+    }
+    
+    // If no parameters, return status message
+    return ContentService
+      .createTextOutput(JSON.stringify({ 
+        status: 'ok', 
+        message: 'Consent Log endpoint is working.' 
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (error) {
+    console.error('Error processing consent log:', error);
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+/**
+ * Handles POST requests from the consent banner (fallback)
  */
 function doPost(e) {
   try {
@@ -64,18 +102,6 @@ function doPost(e) {
       .createTextOutput(JSON.stringify({ status: 'error', message: error.toString() }))
       .setMimeType(ContentService.MimeType.JSON);
   }
-}
-
-/**
- * Handles GET requests (for testing)
- */
-function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({ 
-      status: 'ok', 
-      message: 'Consent Log endpoint is working. Use POST to send data.' 
-    }))
-    .setMimeType(ContentService.MimeType.JSON);
 }
 
 /**
