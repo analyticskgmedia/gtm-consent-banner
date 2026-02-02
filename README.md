@@ -1,6 +1,6 @@
 # GTM Consent Banner - Advanced Consent Mode v2
 
-A complete GDPR-compliant consent banner implementation for Google Tag Manager with Consent Mode v2 support. This template provides a professional, customizable, and accessible consent management solution.
+A complete GDPR-compliant consent banner implementation for Google Tag Manager with Consent Mode v2 support. This template provides a professional, customizable, and accessible consent management solution with **built-in consent logging** for GDPR compliance.
 
 ## Features
 
@@ -12,6 +12,7 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 - ✅ **Responsive design** - Works on all devices
 - ✅ **Lightweight** - Minimal performance impact
 - ✅ **No dependencies** - Pure vanilla JavaScript
+- ✅ **Consent Logging** - Log all consent actions to Google Sheets for GDPR compliance (NEW in v2.0)
 
 ## Installation
 
@@ -24,9 +25,9 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 
 ### 2. Host the JavaScript File
 
-The file `banner-v1.js` has been uploaded to our server at this URL:
+The file `banner-v2.js` has been uploaded to our server at this URL:
 ```
-https://kg-media.eu/banner/banner-v1.js
+https://kg-media.eu/banner/banner-v2.js
 ```
 
 Alternatively, you can use your own hosting location and update the script URL in the template settings.
@@ -52,6 +53,62 @@ Alternatively, you can use your own hosting location and update the script URL i
 - **ads_data_redaction**: Redact ads data when consent is denied (default: enabled)
 - **url_passthrough**: Pass ad click information through URLs (default: enabled)
 - **Wait for update**: Milliseconds to wait for consent (default: 2000)
+
+### Consent Logging (GDPR Compliance) - NEW in v2.0
+
+Enable consent logging to maintain a complete audit trail of all user consent decisions.
+
+- **Enable consent logging**: Toggle to enable/disable logging to Google Sheets
+- **Google Apps Script Web App URL**: The URL of your deployed Apps Script (see setup below)
+- **Banner/Policy Version**: Version identifier to track which consent banner/policy version users consented to
+
+#### Setting Up Consent Logging
+
+1. **Create a Google Sheet**
+   - Go to [sheets.google.com](https://sheets.google.com)
+   - Create a new spreadsheet
+   - Name it (e.g., "Consent Log")
+
+2. **Add the Apps Script**
+   - In your Sheet, go to **Extensions** → **Apps Script**
+   - Delete any existing code
+   - Copy and paste the code from `google-apps-script.js`
+   - Save the project (Ctrl+S)
+
+3. **Deploy as Web App**
+   - Click **Deploy** → **New deployment**
+   - Click the gear icon → **Web app**
+   - Set **Execute as**: "Me"
+   - Set **Who has access**: "Anyone"
+   - Click **Deploy**
+   - **Authorize** when prompted (click through the warnings)
+   - Copy the **Web App URL**
+
+4. **Configure in GTM**
+   - Open your consent banner tag
+   - Enable "Enable consent logging to Google Sheets"
+   - Paste your Web App URL
+   - Set your Banner/Policy Version
+   - Save and publish
+
+#### What Gets Logged
+
+Each consent action logs:
+
+| Field | Description |
+|-------|-------------|
+| timestamp | ISO 8601 timestamp of the consent action |
+| consent_id | Persistent anonymous identifier for the user |
+| action | Type of action: `accept_all`, `reject_all`, or `custom` |
+| analytics_storage | `granted` or `denied` |
+| ad_storage | `granted` or `denied` |
+| ad_user_data | `granted` or `denied` |
+| ad_personalization | `granted` or `denied` |
+| functionality_storage | `granted` or `denied` |
+| personalization_storage | `granted` or `denied` |
+| page_url | URL where consent was given |
+| user_agent | Browser user agent |
+| banner_version | Version of your consent banner/policy |
 
 ### Appearance
 
@@ -94,6 +151,13 @@ The banner pushes these events to dataLayer:
 - `consent_default`: Fired when default consent is set
 - `consent_update`: Fired when user updates consent choices
 
+## Cookies Used
+
+| Cookie Name | Purpose | Expiry |
+|-------------|---------|--------|
+| `kg_consent_preferences` | Stores user's consent choices | 365 days (configurable) |
+| `kg_consent_id` | Anonymous identifier for consent logging | 2 years |
+
 ## Customization
 
 ### Styling
@@ -113,23 +177,7 @@ The banner uses CSS custom properties that can be overridden:
 
 ### Translations
 
-To add or modify translations, edit the `translations` object in `banner-v1.js`.
-
-## Cookie Storage
-
-Consent preferences are stored in a cookie named `kg_consent_preferences` (configurable) with the following structure:
-
-```json
-{
-  "ad_storage": "granted|denied",
-  "ad_user_data": "granted|denied",
-  "ad_personalization": "granted|denied",
-  "analytics_storage": "granted|denied",
-  "functionality_storage": "granted|denied",
-  "personalization_storage": "granted|denied",
-  "security_storage": "granted"
-}
-```
+To add or modify translations, edit the `translations` object in `banner-v2.js`.
 
 ## Browser Support
 
@@ -137,6 +185,42 @@ Consent preferences are stored in a cookie named `kg_consent_preferences` (confi
 - Firefox: Latest 2 versions
 - Safari: Latest 2 versions
 - Mobile browsers: iOS Safari, Chrome for Android
+
+## GDPR Compliance
+
+This consent banner helps you comply with GDPR by:
+
+1. **Collecting explicit consent** before setting non-essential cookies
+2. **Providing granular control** over different cookie categories
+3. **Maintaining consent records** (when logging is enabled) with:
+   - Timestamp of consent
+   - User's consent choices
+   - Version of the consent banner/policy
+   - Anonymous identifier for audit purposes
+4. **Allowing users to change preferences** at any time via the floating button
+
+## Version History
+
+### v2.0 (Current)
+- Added consent logging feature for GDPR compliance
+- Consent actions logged to Google Sheets via Apps Script
+- Persistent consent ID for tracking user consent history
+- Banner version tracking for policy changes
+- Updated external script URL to `banner-v2.js`
+
+### v1.2
+- Added complete EU language support (24 languages)
+- Fixed Slovenian language code (si)
+- Improved mobile button layout
+- UI enhancements
+
+### v1.1
+- Added floating button position control
+- Removed company logo field
+- Improved mobile responsiveness
+
+### v1.0
+- Initial release
 
 ## License
 

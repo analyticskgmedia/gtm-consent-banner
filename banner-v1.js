@@ -1,6 +1,7 @@
 /**
- * KG Media Consent Banner v1.0
+ * KG Media Consent Banner v2.0
  * GDPR-compliant consent banner with Google Consent Mode v2
+ * Now with consent logging support for GDPR compliance
  * (c) 2025 KG Media
  */
 
@@ -529,16 +530,6 @@
             object-fit: contain;
         }
 
-        .kg-consent-logo-right {
-            justify-self: end;
-            height: 40px;
-            width: auto;
-        }
-
-        .kg-consent-logo-mobile-hide {
-            display: block;
-        }
-
         .kg-consent-title {
             font-size: 24px;
             font-weight: 600;
@@ -594,11 +585,6 @@
             outline-offset: 2px;
         }
 
-        .kg-consent-button.primary {
-            background: var(--kg-primary-color, #2563eb);
-            color: var(--kg-primary-text, #ffffff);
-        }
-
         .kg-consent-button.secondary {
             background: var(--kg-secondary-color, #f3f4f6);
             color: var(--kg-secondary-text, #374151);
@@ -617,14 +603,8 @@
         }
 
         @keyframes slideDown {
-            from { 
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to { 
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .kg-consent-category {
@@ -782,10 +762,6 @@
                 object-fit: contain;
             }
 
-            .kg-consent-logo-mobile-hide {
-                display: none !important;
-            }
-
             .kg-consent-title {
                 font-size: 20px;
                 text-align: left;
@@ -820,17 +796,86 @@
         document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Lax`;
     }
 
+    // Generate unique consent ID
+    function generateConsentId() {
+        const timestamp = Date.now().toString(36);
+        const randomPart = Math.random().toString(36).substring(2, 10);
+        return `cns_${timestamp}_${randomPart}`;
+    }
+
+    // Get or create consent ID
+    function getOrCreateConsentId() {
+        let consentId = getCookie('kg_consent_id');
+        if (!consentId) {
+            consentId = generateConsentId();
+            setCookie('kg_consent_id', consentId, 365 * 2); // 2 years
+        }
+        return consentId;
+    }
+
+    // Determine consent action type
+    function determineConsentAction(consent) {
+        const allGranted = consent.ad_storage === 'granted' && 
+                          consent.analytics_storage === 'granted' && 
+                          consent.functionality_storage === 'granted';
+        const allDenied = consent.ad_storage === 'denied' && 
+                         consent.analytics_storage === 'denied' && 
+                         consent.functionality_storage === 'denied';
+        
+        if (allGranted) return 'accept_all';
+        if (allDenied) return 'reject_all';
+        return 'custom';
+    }
+
+    // Send consent log to Google Sheets via Apps Script
+    function logConsentToSheet(consent, action) {
+        const config = window.kgConsentConfig || {};
+        
+        // Check if consent logging is enabled
+        if (!config.enableConsentLogging || !config.consentLogEndpoint) {
+            return;
+        }
+
+        const consentId = getOrCreateConsentId();
+        const timestamp = new Date().toISOString();
+        
+        const logData = {
+            timestamp: timestamp,
+            consent_id: consentId,
+            action: action,
+            analytics_storage: consent.analytics_storage,
+            ad_storage: consent.ad_storage,
+            ad_user_data: consent.ad_user_data,
+            ad_personalization: consent.ad_personalization,
+            functionality_storage: consent.functionality_storage,
+            personalization_storage: consent.personalization_storage,
+            page_url: window.location.href,
+            user_agent: navigator.userAgent,
+            banner_version: config.bannerVersion || '1.0'
+        };
+
+        // Send to Google Apps Script endpoint
+        fetch(config.consentLogEndpoint, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(logData)
+        }).catch(function(error) {
+            console.warn('Consent logging failed:', error);
+        });
+    }
+
     function detectLanguage() {
         const config = window.kgConsentConfig || {};
         
         if (config.autoDetectLanguage) {
-            // Try to detect from URL
             const pathMatch = window.location.pathname.match(/^\/([a-z]{2})\//);
             if (pathMatch && translations[pathMatch[1]]) {
                 return pathMatch[1];
             }
             
-            // Try to detect from HTML lang attribute
             const htmlLang = document.documentElement.lang;
             if (htmlLang) {
                 const langCode = htmlLang.substring(0, 2).toLowerCase();
@@ -852,12 +897,10 @@
         const config = window.kgConsentConfig || {};
         const bannerId = config.bannerId || 'kg-consent-banner';
         
-        // Check if banner already exists
         if (document.getElementById(bannerId)) {
             return;
         }
 
-        // Create styles
         const styleSheet = document.createElement('style');
         styleSheet.textContent = styles.replace(/var\(--kg-bg-color, #ffffff\)/g, `var(--kg-bg-color, ${config.appearance?.backgroundColor || '#ffffff'})`)
             .replace(/var\(--kg-text-color, #111827\)/g, `var(--kg-text-color, ${config.appearance?.textColor || '#111827'})`)
@@ -867,12 +910,10 @@
             .replace(/var\(--kg-secondary-text, #374151\)/g, `var(--kg-secondary-text, ${config.appearance?.secondaryTextColor || '#374151'})`);
         document.head.appendChild(styleSheet);
 
-        // Create overlay
         const overlay = document.createElement('div');
         overlay.className = 'kg-consent-overlay';
         overlay.id = `${bannerId}-overlay`;
 
-        // Create banner HTML
         const banner = document.createElement('div');
         banner.className = 'kg-consent-banner';
         banner.id = bannerId;
@@ -880,26 +921,17 @@
         banner.setAttribute('aria-labelledby', `${bannerId}-title`);
         banner.setAttribute('aria-modal', 'true');
 
-        // Get privacy policy URL for current language
         const currentLang = detectLanguage();
         const privacyUrl = config.privacyPolicyUrls?.[currentLang] || '#';
 
-        // Create header with grid layout
         let headerHTML = '<div class="kg-consent-header">';
-        
-        // Left column - Website logo or empty div
         if (config.logos?.website) {
             headerHTML += `<img src="${config.logos.website}" alt="Website Logo" class="kg-consent-logo-left">`;
         } else {
-            headerHTML += '<div></div>'; // Empty div to maintain grid structure
+            headerHTML += '<div></div>';
         }
-        
-        // Center column - Title
         headerHTML += `<h2 class="kg-consent-title" id="${bannerId}-title">${getTranslation('title')}</h2>`;
-        
-        // Right column - Empty div to maintain grid structure
-        headerHTML += '<div></div>'; // Empty div to maintain grid structure
-        
+        headerHTML += '<div></div>';
         headerHTML += '</div>';
 
         banner.innerHTML = `
@@ -978,21 +1010,16 @@
             </div>
         `;
 
-        // Add to page
         document.body.appendChild(overlay);
         document.body.appendChild(banner);
-
-        // Add event listeners
         setupEventListeners(bannerId);
     }
 
     function setupEventListeners(bannerId) {
         const config = window.kgConsentConfig || {};
         const banner = document.getElementById(bannerId);
-        const overlay = document.getElementById(`${bannerId}-overlay`);
         const detailsSection = document.getElementById(`${bannerId}-details-section`);
 
-        // Accept all
         document.getElementById(`${bannerId}-accept-all`).addEventListener('click', function() {
             const consent = {
                 ad_storage: 'granted',
@@ -1003,11 +1030,10 @@
                 personalization_storage: 'granted',
                 security_storage: 'granted'
             };
-            saveConsent(consent);
+            saveConsent(consent, 'accept_all');
             hideBanner(bannerId);
         });
 
-        // Reject all
         document.getElementById(`${bannerId}-reject-all`).addEventListener('click', function() {
             const consent = {
                 ad_storage: 'denied',
@@ -1018,16 +1044,14 @@
                 personalization_storage: 'denied',
                 security_storage: 'granted'
             };
-            saveConsent(consent);
+            saveConsent(consent, 'reject_all');
             hideBanner(bannerId);
         });
 
-        // Show details
         document.getElementById(`${bannerId}-details`).addEventListener('click', function() {
             detailsSection.classList.add('active');
         });
 
-        // Save selected
         document.getElementById(`${bannerId}-save`).addEventListener('click', function() {
             const consent = {
                 ad_storage: banner.querySelector('[data-category="marketing"]').checked ? 'granted' : 'denied',
@@ -1038,16 +1062,11 @@
                 personalization_storage: banner.querySelector('[data-category="functional"]').checked ? 'granted' : 'denied',
                 security_storage: 'granted'
             };
-            saveConsent(consent);
+            const action = determineConsentAction(consent);
+            saveConsent(consent, action);
             hideBanner(bannerId);
         });
 
-        // Keyboard navigation (removed ESC key handler)
-        banner.addEventListener('keydown', function(e) {
-            // Only handle Tab key for focus management
-        });
-
-        // Focus trap
         const focusableElements = banner.querySelectorAll('button, input, a');
         const firstFocusable = focusableElements[0];
         const lastFocusable = focusableElements[focusableElements.length - 1];
@@ -1071,15 +1090,14 @@
         });
     }
 
-    function saveConsent(consent) {
+    function saveConsent(consent, action) {
         const config = window.kgConsentConfig || {};
         const cookieName = config.cookieName || 'kg_consent_preferences';
         const cookieExpiry = config.cookieExpiry || 365;
 
-        // Save to cookie
         setCookie(cookieName, JSON.stringify(consent), cookieExpiry);
+        logConsentToSheet(consent, action);
 
-        // Call callback if provided
         if (typeof config.onConsentUpdate === 'function') {
             config.onConsentUpdate(consent);
         }
@@ -1091,17 +1109,14 @@
         
         if (banner) banner.remove();
         if (overlay) overlay.remove();
-
-        // Show toggle button
         showToggleButton(bannerId);
     }
 
     function showToggleButton(bannerId) {
         const config = window.kgConsentConfig || {};
         
-        // Check if floating button is disabled
         if (config.showFloatingButton === false) {
-            return; // Don't show the button
+            return;
         }
         
         const existingToggle = document.getElementById(`${bannerId}-toggle`);
@@ -1112,7 +1127,6 @@
         toggle.setAttribute('aria-label', getTranslation('cookieSettings'));
         toggle.setAttribute('title', getTranslation('cookieSettings'));
         
-        // Handle position
         const position = config.floatingButtonPosition || 'bottom-left';
         const positions = {
             'bottom-left': { bottom: '20px', left: '20px', right: 'auto', top: 'auto' },
@@ -1189,7 +1203,6 @@
             const banner = document.querySelector('.kg-consent-banner');
             
             if (banner && consent && typeof consent === 'object') {
-                // Set switches based on saved preferences
                 banner.querySelector('[data-category="analytics"]').checked = consent.analytics_storage === 'granted';
                 banner.querySelector('[data-category="marketing"]').checked = consent.ad_storage === 'granted';
                 banner.querySelector('[data-category="functional"]').checked = consent.functionality_storage === 'granted';
@@ -1197,22 +1210,22 @@
         }
     }
 
-    // Initialize
     window.initKGConsentBanner = function() {
         const config = window.kgConsentConfig || {};
         const cookieName = config.cookieName || 'kg_consent_preferences';
         const savedConsent = getCookie(cookieName);
 
+        if (config.enableConsentLogging) {
+            getOrCreateConsentId();
+        }
+
         if (!savedConsent) {
-            // Show banner if no consent saved
             createBanner();
         } else {
-            // Show toggle button if consent already given
             showToggleButton(config.bannerId || 'kg-consent-banner');
         }
     };
 
-    // Auto-init if config is already available
     if (window.kgConsentConfig) {
         window.initKGConsentBanner();
     }

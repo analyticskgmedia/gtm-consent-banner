@@ -21,9 +21,9 @@ ___INFO___
   "brand": {
     "id": "kg_media",
     "displayName": "KG Media",
-    "thumbnail": "data:image/png;base64,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"
+    "thumbnail": "data:image/png;base64,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"
   },
-  "description": "A complete GDPR-compliant consent banner with Google Consent Mode v2 integration. Features two-step consent flow, multi-language support, and full customization options.",
+  "description": "A complete GDPR-compliant consent banner with Google Consent Mode v2 integration. Features two-step consent flow, multi-language support, consent logging, and full customization options.",
   "containerContexts": [
     "WEB"
   ]
@@ -124,6 +124,52 @@ ___TEMPLATE_PARAMETERS___
           },
           {
             "type": "POSITIVE_NUMBER"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "GROUP",
+    "name": "consentLogging",
+    "displayName": "Consent Logging (GDPR Compliance)",
+    "groupStyle": "ZIPPY_CLOSED",
+    "subParams": [
+      {
+        "type": "CHECKBOX",
+        "name": "enableConsentLogging",
+        "checkboxText": "Enable consent logging to Google Sheets",
+        "simpleValueType": true,
+        "defaultValue": false,
+        "help": "Log all consent actions to a Google Sheet for GDPR compliance and audit purposes"
+      },
+      {
+        "type": "TEXT",
+        "name": "consentLogEndpoint",
+        "displayName": "Google Apps Script Web App URL",
+        "simpleValueType": true,
+        "defaultValue": "",
+        "help": "The URL of your deployed Google Apps Script web app. See documentation for setup instructions.",
+        "enablingConditions": [
+          {
+            "paramName": "enableConsentLogging",
+            "paramValue": true,
+            "type": "EQUALS"
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "name": "bannerVersion",
+        "displayName": "Banner/Policy Version",
+        "simpleValueType": true,
+        "defaultValue": "1.0",
+        "help": "Version identifier for your consent banner or privacy policy. Update this when you make significant changes to track which version users consented to.",
+        "enablingConditions": [
+          {
+            "paramName": "enableConsentLogging",
+            "paramValue": true,
+            "type": "EQUALS"
           }
         ]
       }
@@ -318,7 +364,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "scriptUrl",
         "displayName": "External Script URL",
         "simpleValueType": true,
-        "defaultValue": "https://kg-media.eu/banner/banner-v1.js",
+        "defaultValue": "https://kg-media.eu/banner/banner-v2.js",
         "help": "URL to the banner JavaScript file"
       }
     ]
@@ -353,6 +399,11 @@ const cookieExpiry = makeNumber(data.cookieExpiry);
 const scriptUrl = data.scriptUrl;
 const showFloatingButton = data.showFloatingButton;
 const floatingButtonPosition = data.floatingButtonPosition;
+
+// Consent logging settings
+const enableConsentLogging = data.enableConsentLogging;
+const consentLogEndpoint = data.consentLogEndpoint;
+const bannerVersion = data.bannerVersion || '1.0';
 
 // Appearance settings
 const appearance = {
@@ -470,6 +521,10 @@ function initConsentBanner() {
     privacyPolicyUrls: privacyPolicyUrls,
     showFloatingButton: showFloatingButton,
     floatingButtonPosition: floatingButtonPosition,
+    // Consent logging configuration
+    enableConsentLogging: enableConsentLogging,
+    consentLogEndpoint: consentLogEndpoint,
+    bannerVersion: bannerVersion,
     onConsentUpdate: function(consent) {
       // Update consent state
       updateConsentState({
@@ -727,13 +782,47 @@ ___WEB_PERMISSIONS___
                   },
                   {
                     "type": 8,
-                    "boolean": false
+                    "boolean": true
                   },
                   {
                     "type": 8,
                     "boolean": true
                   }
                 ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "write_data_layer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "keyPatterns",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "event"
+              },
+              {
+                "type": 1,
+                "string": "consent_settings"
+              },
+              {
+                "type": 1,
+                "string": "consent_settings.*"
               }
             ]
           }
@@ -1006,6 +1095,10 @@ ___WEB_PERMISSIONS___
               {
                 "type": 1,
                 "string": "kg_consent_preferences"
+              },
+              {
+                "type": 1,
+                "string": "kg_consent_id"
               }
             ]
           }
@@ -1037,6 +1130,13 @@ Features:
 - WCAG compliance
 - Lightweight implementation
 - Optional floating settings button
+- Consent logging to Google Sheets for GDPR compliance
+
+Version 2.0:
+- Added consent logging feature for GDPR compliance
+- Consent actions are logged to Google Sheets via Apps Script
+- Persistent consent ID for tracking user consent history
+- Banner version tracking for policy changes
 
 Version 1.2:
 - Added complete EU language support (24 languages)

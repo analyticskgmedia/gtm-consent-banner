@@ -1,6 +1,33 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
+  - sha: "NEW_COMMIT_SHA_HERE"
+    changeNotes: |
+      Version 2.0 - Consent Logging for GDPR Compliance
+      
+      NEW FEATURES:
+      - Consent logging to Google Sheets via Apps Script
+      - Persistent consent ID for tracking user consent history across sessions
+      - Banner/policy version tracking
+      - Complete audit trail with timestamps, user choices, and page URLs
+      
+      This update helps you maintain GDPR-compliant consent records that can be
+      used for audits and legal defense. Each consent action is logged with:
+      - ISO 8601 timestamp
+      - Anonymous consent ID
+      - Action type (accept_all, reject_all, custom)
+      - All consent category states
+      - Page URL and user agent
+      - Banner version
+      
+      SETUP:
+      1. Create a Google Sheet
+      2. Add the provided Apps Script code
+      3. Deploy as Web App
+      4. Paste the URL in GTM template settings
+      
+      See README.md for detailed setup instructions.
+
   - sha: "6cc53fe1a0b6fb3160174b57d37fe3dded535255"
     changeNotes: |
       Initial release of Advanced Consent Mode v2 Banner
