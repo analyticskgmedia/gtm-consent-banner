@@ -1,7 +1,7 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-  - sha: "8847b02cca0e5297032dbd963ac5dc807596ab6c"
+  - sha: "NEW_COMMIT_SHA_HERE"
     changeNotes: |
       Version 2.0 - Consent Logging for GDPR Compliance
       
