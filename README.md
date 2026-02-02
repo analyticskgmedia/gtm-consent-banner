@@ -25,9 +25,9 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 
 ### 2. Host the JavaScript File
 
-The file `banner-v2.js` has been uploaded to our server at this URL:
+The file `banner-v1.js` has been uploaded to our server at this URL:
 ```
-https://kg-media.eu/banner/banner-v2.js
+https://kg-media.eu/banner/banner-v1.js
 ```
 
 Alternatively, you can use your own hosting location and update the script URL in the template settings.
@@ -177,7 +177,7 @@ The banner uses CSS custom properties that can be overridden:
 
 ### Translations
 
-To add or modify translations, edit the `translations` object in `banner-v2.js`.
+To add or modify translations, edit the `translations` object in `banner-v1.js`.
 
 ## Browser Support
 
@@ -206,7 +206,6 @@ This consent banner helps you comply with GDPR by:
 - Consent actions logged to Google Sheets via Apps Script
 - Persistent consent ID for tracking user consent history
 - Banner version tracking for policy changes
-- Updated external script URL to `banner-v2.js`
 
 ### v1.2
 - Added complete EU language support (24 languages)
