@@ -73,7 +73,7 @@ ___TEMPLATE_PARAMETERS___
           {"value": "pt", "displayValue": "Portuguese"},
           {"value": "ro", "displayValue": "Romanian"},
           {"value": "sk", "displayValue": "Slovak"},
-          {"value": "si", "displayValue": "Slovene"},
+          {"value": "sl", "displayValue": "Slovene"},
           {"value": "es", "displayValue": "Spanish"},
           {"value": "sv", "displayValue": "Swedish"}
         ],
@@ -364,7 +364,7 @@ ___TEMPLATE_PARAMETERS___
         "name": "scriptUrl",
         "displayName": "External Script URL",
         "simpleValueType": true,
-        "defaultValue": "https://kg-media.eu/banner/banner-v2.js",
+        "defaultValue": "https://kg-media.eu/banner/banner-v1.js",
         "help": "URL to the banner JavaScript file"
       }
     ]
