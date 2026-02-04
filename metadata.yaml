@@ -1,7 +1,7 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-  - sha: "NEW_COMMIT_SHA_HERE"
+  - sha: "dcd8a879c58e76850038f00db701cb55fffc6847"
     changeNotes: |
       Version 2.1 - Cookie Domain Scope Option
       
