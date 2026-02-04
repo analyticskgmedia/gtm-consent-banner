@@ -789,11 +789,30 @@
         return null;
     }
 
+    function getRootDomain() {
+        const parts = window.location.hostname.split('.');
+        // Handle cases like example.com (2 parts) or sub.example.com (3+ parts)
+        if (parts.length >= 2) {
+            return '.' + parts.slice(-2).join('.');
+        }
+        return window.location.hostname;
+    }
+
     function setCookie(name, value, days) {
+        const config = window.kgConsentConfig || {};
         const date = new Date();
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         const expires = `expires=${date.toUTCString()}`;
-        document.cookie = `${name}=${value}; ${expires}; path=/; SameSite=Lax`;
+        
+        let cookieString = `${name}=${value}; ${expires}; path=/; SameSite=Lax`;
+        
+        // Add domain if subdomains mode is selected
+        if (config.cookieDomainMode === 'subdomains') {
+            const rootDomain = getRootDomain();
+            cookieString += `; domain=${rootDomain}`;
+        }
+        
+        document.cookie = cookieString;
     }
 
     // Generate unique consent ID

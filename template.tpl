@@ -524,6 +524,25 @@ ___TEMPLATE_PARAMETERS___
         "simpleValueType": true,
         "defaultValue": "https://kg-media.eu/banner/banner-v1.js",
         "help": "URL to the banner JavaScript file"
+      },
+      {
+        "type": "SELECT",
+        "name": "cookieDomainMode",
+        "displayName": "Cookie Domain Scope",
+        "macrosInSelect": false,
+        "selectItems": [
+          {
+            "value": "current",
+            "displayValue": "Current domain only"
+          },
+          {
+            "value": "subdomains",
+            "displayValue": "Include all subdomains"
+          }
+        ],
+        "simpleValueType": true,
+        "defaultValue": "current",
+        "help": "Choose whether cookies should work only on the current domain (e.g., www.example.com) or across all subdomains (e.g., *.example.com)"
       }
     ]
   }
@@ -556,6 +575,7 @@ const waitForUpdate = makeNumber(data.waitForUpdate);
 const cookieName = data.cookieName;
 const cookieExpiry = makeNumber(data.cookieExpiry);
 const scriptUrl = data.scriptUrl;
+const cookieDomainMode = data.cookieDomainMode;
 const showFloatingButton = data.showFloatingButton;
 const floatingButtonPosition = data.floatingButtonPosition;
 
@@ -675,6 +695,7 @@ function initConsentBanner() {
     autoDetectLanguage: autoDetectLanguage,
     cookieName: cookieName,
     cookieExpiry: cookieExpiry,
+    cookieDomainMode: cookieDomainMode,
     appearance: appearance,
     logos: logos,
     privacyPolicyUrls: privacyPolicyUrls,
@@ -1259,6 +1280,10 @@ Features:
 - Lightweight implementation
 - Optional floating settings button
 - Consent logging to Google Sheets for GDPR compliance
+
+Version 2.1:
+- Added Cookie Domain Scope option (current domain only or all subdomains)
+- Enables consent sharing across subdomains when needed
 
 Version 2.0:
 - Added consent logging feature for GDPR compliance

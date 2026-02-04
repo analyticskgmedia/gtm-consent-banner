@@ -1,6 +1,18 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
+  - sha: "NEW_COMMIT_SHA_HERE"
+    changeNotes: |
+      Version 2.1 - Cookie Domain Scope Option
+      
+      NEW FEATURES:
+      - Added Cookie Domain Scope dropdown in Advanced Settings
+      - Option 1: "Current domain only" (default) - cookies work on single domain
+      - Option 2: "Include all subdomains" - cookies shared across all subdomains
+      
+      This allows sites with multiple subdomains to share consent preferences
+      across their entire domain without requiring users to consent multiple times.
+
   - sha: "5bba78ca4ff68065e8dc4a2a87c3bdaac01c8665"
     changeNotes: |
       Version 2.0 - Consent Logging for GDPR Compliance
