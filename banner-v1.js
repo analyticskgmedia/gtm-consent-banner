@@ -1234,10 +1234,6 @@
         const cookieName = config.cookieName || 'kg_consent_preferences';
         const savedConsent = getCookie(cookieName);
 
-        if (config.enableConsentLogging) {
-            getOrCreateConsentId();
-        }
-
         if (!savedConsent) {
             createBanner();
         } else {
