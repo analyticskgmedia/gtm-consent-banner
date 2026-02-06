@@ -261,7 +261,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Primary Button Color",
         "simpleValueType": true,
         "defaultValue": "#2563eb",
-        "help": "Color for the \u0027Accept All\u0027 button"
+        "help": "Color for \u0027Accept All\u0027 and \u0027Reject All\u0027 buttons"
       },
       {
         "type": "TEXT",
@@ -276,7 +276,7 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Secondary Button Color",
         "simpleValueType": true,
         "defaultValue": "#f3f4f6",
-        "help": "Color for \u0027Details\u0027 and \u0027Reject All\u0027 buttons"
+        "help": "Color for \u0027Details\u0027 button"
       },
       {
         "type": "TEXT",
@@ -488,6 +488,21 @@ ___TEMPLATE_PARAMETERS___
             "type": "EQUALS"
           }
         ]
+      },
+      {
+        "type": "TEXT",
+        "name": "floatingButtonColor",
+        "displayName": "Button Color",
+        "simpleValueType": true,
+        "defaultValue": "",
+        "help": "Color for the floating button. Leave empty to use Primary Button Color.",
+        "enablingConditions": [
+          {
+            "paramName": "showFloatingButton",
+            "paramValue": true,
+            "type": "EQUALS"
+          }
+        ]
       }
     ]
   },
@@ -578,6 +593,7 @@ const scriptUrl = data.scriptUrl;
 const cookieDomainMode = data.cookieDomainMode;
 const showFloatingButton = data.showFloatingButton;
 const floatingButtonPosition = data.floatingButtonPosition;
+const floatingButtonColor = data.floatingButtonColor;
 
 // Consent logging settings
 const enableConsentLogging = data.enableConsentLogging;
@@ -701,6 +717,7 @@ function initConsentBanner() {
     privacyPolicyUrls: privacyPolicyUrls,
     showFloatingButton: showFloatingButton,
     floatingButtonPosition: floatingButtonPosition,
+    floatingButtonColor: floatingButtonColor,
     // Consent logging configuration
     enableConsentLogging: enableConsentLogging,
     consentLogEndpoint: consentLogEndpoint,

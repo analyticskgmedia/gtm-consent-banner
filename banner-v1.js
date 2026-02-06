@@ -473,18 +473,16 @@
         .kg-consent-banner {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            bottom: 0;
+            left: 0;
+            right: 0;
             z-index: 999999;
-            width: 90%;
-            max-width: 580px;
-            animation: fadeInScale 0.3s ease-out;
+            animation: slideUp 0.3s ease-out;
         }
 
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        @keyframes slideUp {
+            from { transform: translateY(100%); }
+            to { transform: translateY(0); }
         }
 
         .kg-consent-overlay {
@@ -504,14 +502,16 @@
         }
 
         .kg-consent-container {
+            max-width: 500px;
+            margin: 20px auto;
             background: var(--kg-bg-color, #ffffff);
-            border-radius: 16px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
             overflow: hidden;
         }
 
         .kg-consent-content {
-            padding: 40px;
+            padding: 32px;
         }
 
         .kg-consent-header {
@@ -519,19 +519,19 @@
             grid-template-columns: minmax(auto, 1fr) auto minmax(auto, 1fr);
             align-items: center;
             gap: 16px;
-            margin-bottom: 20px;
+            margin-bottom: 16px;
         }
 
         .kg-consent-logo-left {
             justify-self: start;
-            height: 48px;
+            height: 40px;
             width: auto;
             max-width: 200px;
             object-fit: contain;
         }
 
         .kg-consent-title {
-            font-size: 28px;
+            font-size: 24px;
             font-weight: 600;
             color: var(--kg-text-color, #111827);
             margin: 0;
@@ -541,27 +541,27 @@
         }
 
         .kg-consent-description {
-            font-size: 17px;
-            line-height: 1.7;
+            font-size: 16px;
+            line-height: 1.6;
             color: var(--kg-text-color, #111827);
-            margin: 0 0 28px 0;
+            margin: 0 0 24px 0;
             opacity: 0.8;
             text-align: justify;
         }
 
         .kg-consent-buttons {
             display: flex;
-            gap: 14px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
         .kg-consent-button {
             flex: 1;
             min-width: 120px;
-            padding: 14px 20px;
+            padding: 12px 16px;
             border: none;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -1158,6 +1158,8 @@
         };
         
         const pos = positions[position];
+        const buttonColor = config.floatingButtonColor || (config.appearance && config.appearance.primaryColor) || '#2563eb';
+        
         toggle.style.cssText = `
             position: fixed !important;
             bottom: ${pos.bottom} !important;
@@ -1166,7 +1168,7 @@
             top: ${pos.top} !important;
             width: 48px !important;
             height: 48px !important;
-            background: ${window.kgConsentConfig?.appearance?.primaryColor || '#2563eb'} !important;
+            background: ${buttonColor} !important;
             color: white !important;
             border: none !important;
             border-radius: 50% !important;
