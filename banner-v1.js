@@ -473,16 +473,18 @@
         .kg-consent-banner {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
             position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             z-index: 999999;
-            animation: slideUp 0.3s ease-out;
+            width: 90%;
+            max-width: 580px;
+            animation: fadeInScale 0.3s ease-out;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(100%); }
-            to { transform: translateY(0); }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         .kg-consent-overlay {
@@ -502,16 +504,14 @@
         }
 
         .kg-consent-container {
-            max-width: 500px;
-            margin: 20px auto;
             background: var(--kg-bg-color, #ffffff);
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
             overflow: hidden;
         }
 
         .kg-consent-content {
-            padding: 32px;
+            padding: 40px;
         }
 
         .kg-consent-header {
@@ -519,19 +519,19 @@
             grid-template-columns: minmax(auto, 1fr) auto minmax(auto, 1fr);
             align-items: center;
             gap: 16px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .kg-consent-logo-left {
             justify-self: start;
-            height: 40px;
+            height: 48px;
             width: auto;
             max-width: 200px;
             object-fit: contain;
         }
 
         .kg-consent-title {
-            font-size: 24px;
+            font-size: 28px;
             font-weight: 600;
             color: var(--kg-text-color, #111827);
             margin: 0;
@@ -541,27 +541,27 @@
         }
 
         .kg-consent-description {
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 17px;
+            line-height: 1.7;
             color: var(--kg-text-color, #111827);
-            margin: 0 0 24px 0;
+            margin: 0 0 28px 0;
             opacity: 0.8;
             text-align: justify;
         }
 
         .kg-consent-buttons {
             display: flex;
-            gap: 12px;
+            gap: 14px;
             flex-wrap: wrap;
         }
 
         .kg-consent-button {
             flex: 1;
             min-width: 120px;
-            padding: 10px 16px;
+            padding: 14px 20px;
             border: none;
-            border-radius: 8px;
-            font-size: 14px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 500;
             cursor: pointer;
             transition: all 0.2s ease;
@@ -572,7 +572,6 @@
         .kg-consent-button.primary {
             background: var(--kg-primary-color, #2563eb);
             color: var(--kg-primary-text, #ffffff);
-            flex-basis: 100%;
         }
 
         .kg-consent-button:hover {
@@ -588,6 +587,10 @@
         .kg-consent-button.secondary {
             background: var(--kg-secondary-color, #f3f4f6);
             color: var(--kg-secondary-text, #374151);
+        }
+
+        .kg-consent-button.details-btn {
+            flex-basis: 100%;
         }
 
         .kg-consent-details {
@@ -776,7 +779,7 @@
                 padding: 10px 12px;
                 font-size: 13px;
                 min-width: auto;
-                flex: 1 1 calc(33.333% - 8px);
+                flex: 1 1 100%;
             }
         }
     `;
@@ -963,11 +966,11 @@
                         <button class="kg-consent-button primary" id="${bannerId}-accept-all">
                             ${getTranslation('acceptAll')}
                         </button>
-                        <button class="kg-consent-button secondary" id="${bannerId}-details">
-                            ${getTranslation('details')}
-                        </button>
-                        <button class="kg-consent-button secondary" id="${bannerId}-reject-all">
+                        <button class="kg-consent-button primary" id="${bannerId}-reject-all">
                             ${getTranslation('rejectAll')}
+                        </button>
+                        <button class="kg-consent-button secondary details-btn" id="${bannerId}-details">
+                            ${getTranslation('details')}
                         </button>
                     </div>
 
