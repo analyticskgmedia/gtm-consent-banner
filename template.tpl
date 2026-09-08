@@ -202,13 +202,48 @@ ___TEMPLATE_PARAMETERS___
         ]
       },
 	  {
-  "type": "CHECKBOX",
-  "name": "enableRegionalConsent",
-  "checkboxText": "Enable regional consent defaults",
-  "simpleValueType": true,
-  "defaultValue": false,
-  "help": "Use denied by default in EEA, UK and Switzerland, and granted by default in other regions."
-}
+	  "type": "CHECKBOX",
+	  "name": "enableRegionalConsent",
+	  "checkboxText": "Enable regional consent defaults",
+	  "simpleValueType": true,
+	  "defaultValue": false,
+	  "help": "Use denied by default in EEA, UK and Switzerland, and granted by default in other regions."
+	},
+	{
+	  "type": "SIMPLE_TABLE",
+	  "name": "additionalRestrictedRegions",
+	  "displayName": "Additional restricted regions",
+	  "simpleTableColumns": [
+		{
+		  "defaultValue": "",
+		  "displayName": "Region code",
+		  "name": "regionCode",
+		  "type": "TEXT",
+		  "isUnique": true,
+		  "valueHint": "US-CA",
+		  "valueValidators": [
+			{
+			  "type": "NON_EMPTY"
+			},
+			{
+			  "type": "REGEX",
+			  "args": [
+				"^([A-Z]{2}|[A-Z]{2}-[A-Z0-9]{1,3})$"
+			  ]
+			}
+		  ]
+		}
+	  ],
+	  "newRowButtonText": "Add region",
+	  "help": "Optional. Add additional ISO 3166-2 region codes that should use denied consent defaults. EEA, UK and Switzerland are already included. Example: US-CA.",
+	  "enablingConditions": [
+		{
+		  "paramName": "enableRegionalConsent",
+		  "paramValue": true,
+		  "type": "EQUALS"
+		}
+	  ]
+	}
     ]
   },
   {
@@ -585,6 +620,7 @@ const queryPermission = require('queryPermission');
 const createQueue = require('createQueue');
 const setDefaultConsentState = require('setDefaultConsentState');
 const updateConsentState = require('updateConsentState');
+const gtagSet = require('gtagSet');
 const getCookieValues = require('getCookieValues');
 const JSON = require('JSON');
 
@@ -596,6 +632,7 @@ const adsDataRedaction = data.adsDataRedaction;
 const urlPassthrough = data.urlPassthrough;
 const waitForUpdate = makeNumber(data.waitForUpdate);
 const enableRegionalConsent = data.enableRegionalConsent;
+const additionalRestrictedRegions = data.additionalRestrictedRegions || [];
 const cookieName = data.cookieName;
 const cookieExpiry = makeNumber(data.cookieExpiry);
 const scriptUrl = data.scriptUrl;
@@ -660,6 +697,12 @@ function setDefaultConsent() {
     'GB', 'CH'
   ];
 
+  for (let i = 0; i < additionalRestrictedRegions.length; i++) {
+    restrictedRegions.push(
+      additionalRestrictedRegions[i].regionCode
+    );
+  }
+
   const deniedDefaultSettings = {
     'ad_storage': 'denied',
     'ad_user_data': 'denied',
@@ -698,18 +741,13 @@ function setDefaultConsent() {
     setDefaultConsentState(otherRegionsDefaultSettings);
     setDefaultConsentState(restrictedDefaultSettings);
 
-    dataLayerPush({
+	dataLayerPush({
 	  'event': 'consent_default',
 	  'consent_settings': {
-		'ad_storage': 'denied',
-		'ad_user_data': 'denied',
-		'ad_personalization': 'denied',
-		'analytics_storage': 'denied',
-		'functionality_storage': 'denied',
-		'personalization_storage': 'denied',
-		'security_storage': 'granted',
 		'mode': 'regional',
-		'other_regions_default': 'granted'
+		'restricted_default': 'denied',
+		'other_regions_default': 'granted',
+		'security_storage': 'granted'
 	  }
 	});
   } else {
@@ -729,13 +767,13 @@ function setDefaultConsent() {
     });
   }
 
-  if (adsDataRedaction) {
-    callInWindow('gtag', 'set', 'ads_data_redaction', true);
-  }
+	if (adsDataRedaction) {
+	  gtagSet('ads_data_redaction', true);
+	}
 
-  if (urlPassthrough) {
-    callInWindow('gtag', 'set', 'url_passthrough', true);
-  }
+	if (urlPassthrough) {
+	  gtagSet('url_passthrough', true);
+	}
 
   if (savedConsent) {
     updateConsentState({
@@ -1001,45 +1039,36 @@ ___WEB_PERMISSIONS___
                     "boolean": false
                   }
                 ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "clientAnnotations": {
+      "isEditedByUser": true
+    },
+    "isRequired": true
+  },
+  {
+    "instance": {
+      "key": {
+        "publicId": "write_data_layer",
+        "versionId": "1"
+      },
+      "param": [
+        {
+          "key": "keyPatterns",
+          "value": {
+            "type": 2,
+            "listItem": [
+              {
+                "type": 1,
+                "string": "ads_data_redaction"
               },
               {
-                "type": 3,
-                "mapKey": [
-                  {
-                    "type": 1,
-                    "string": "key"
-                  },
-                  {
-                    "type": 1,
-                    "string": "read"
-                  },
-                  {
-                    "type": 1,
-                    "string": "write"
-                  },
-                  {
-                    "type": 1,
-                    "string": "execute"
-                  }
-                ],
-                "mapValue": [
-                  {
-                    "type": 1,
-                    "string": "gtag"
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  },
-                  {
-                    "type": 8,
-                    "boolean": false
-                  },
-                  {
-                    "type": 8,
-                    "boolean": true
-                  }
-                ]
+                "type": 1,
+                "string": "url_passthrough"
               }
             ]
           }
