@@ -12,7 +12,8 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 - ✅ **Responsive design** - Works on all devices
 - ✅ **Lightweight** - Minimal performance impact
 - ✅ **No dependencies** - Pure vanilla JavaScript
-- ✅ **Consent Logging** - Log all consent actions to Google Sheets for GDPR compliance (NEW in v2.0)
+- ✅ **Consent Logging** - Log all consent actions to Google Sheets for GDPR compliance
+- ✅ **Optional regional consent defaults** - EEA, UK and Switzerland can default to denied while other regions default to granted
 
 ## Installation
 
@@ -53,6 +54,7 @@ Alternatively, you can use your own hosting location and update the script URL i
 - **ads_data_redaction**: Redact ads data when consent is denied (default: enabled)
 - **url_passthrough**: Pass ad click information through URLs (default: enabled)
 - **Wait for update**: Milliseconds to wait for consent (default: 2000)
+- **Enable regional consent defaults**: When enabled, consent defaults to `denied` in the EEA, UK and Switzerland, and `granted` in other regions. When disabled, consent defaults to `denied` globally (default: disabled).
 
 ### Consent Logging (GDPR Compliance) - NEW in v2.0
 
@@ -201,7 +203,18 @@ This consent banner helps you comply with GDPR by:
 
 ## Version History
 
-### v2.0 (Current)
+### v2.2 (Current)
+- Added optional regional consent defaults
+- EEA, UK and Switzerland default to denied when regional mode is enabled
+- Other regions default to granted when regional mode is enabled
+- Global denied remains the default behavior when regional mode is disabled
+- Saved consent choices continue to be applied through consent updates
+
+### v2.1
+- Added Cookie Domain Scope option
+- Added support for sharing consent cookies across subdomains
+
+### v2.0
 - Added consent logging feature for GDPR compliance
 - Consent actions logged to Google Sheets via Apps Script
 - Persistent consent ID for tracking user consent history

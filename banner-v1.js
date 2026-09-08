@@ -689,16 +689,16 @@
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
             font-size: 12px;
             color: var(--kg-text-color, #111827);
             opacity: 0.8;
         }
 
         .kg-consent-footer a {
-            color: var(--kg-primary-color, #2563eb);
-            text-decoration: none;
-        }
+    color: var(--kg-text-color, #111827);
+    text-decoration: none;
+}
 
         .kg-consent-footer a:hover {
             text-decoration: underline;
@@ -1025,9 +1025,8 @@
                     </div>
 
                     <div class="kg-consent-footer">
-                        <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">${getTranslation('privacyPolicy')}</a>
-                        <p>${getTranslation('poweredBy')} <a href="https://kg-media.eu/" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: underline;">KG Media</a></p>
-                    </div>
+    <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">${getTranslation('privacyPolicy')}</a>
+</div>
                 </div>
             </div>
         `;

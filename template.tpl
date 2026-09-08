@@ -200,7 +200,15 @@ ___TEMPLATE_PARAMETERS___
             "type": "POSITIVE_NUMBER"
           }
         ]
-      }
+      },
+	  {
+  "type": "CHECKBOX",
+  "name": "enableRegionalConsent",
+  "checkboxText": "Enable regional consent defaults",
+  "simpleValueType": true,
+  "defaultValue": false,
+  "help": "Use denied by default in EEA, UK and Switzerland, and granted by default in other regions."
+}
     ]
   },
   {
@@ -587,6 +595,7 @@ const autoDetectLanguage = data.autoDetectLanguage;
 const adsDataRedaction = data.adsDataRedaction;
 const urlPassthrough = data.urlPassthrough;
 const waitForUpdate = makeNumber(data.waitForUpdate);
+const enableRegionalConsent = data.enableRegionalConsent;
 const cookieName = data.cookieName;
 const cookieExpiry = makeNumber(data.cookieExpiry);
 const scriptUrl = data.scriptUrl;
@@ -642,48 +651,87 @@ function getConsentFromCookie() {
 // Set default consent state
 function setDefaultConsent() {
   const savedConsent = getConsentFromCookie();
-  
-  const defaultSettings = {
-    'ad_storage': savedConsent ? savedConsent.ad_storage : 'denied',
-    'ad_user_data': savedConsent ? savedConsent.ad_user_data : 'denied',
-    'ad_personalization': savedConsent ? savedConsent.ad_personalization : 'denied',
-    'analytics_storage': savedConsent ? savedConsent.analytics_storage : 'denied',
-    'functionality_storage': savedConsent ? savedConsent.functionality_storage : 'denied',
-    'personalization_storage': savedConsent ? savedConsent.personalization_storage : 'denied',
+
+  const restrictedRegions = [
+    'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE',
+    'FI', 'FR', 'DE', 'GR', 'HU', 'IS', 'IE', 'IT',
+    'LV', 'LI', 'LT', 'LU', 'MT', 'NL', 'NO', 'PL',
+    'PT', 'RO', 'SK', 'SI', 'ES', 'SE',
+    'GB', 'CH'
+  ];
+
+  const deniedDefaultSettings = {
+    'ad_storage': 'denied',
+    'ad_user_data': 'denied',
+    'ad_personalization': 'denied',
+    'analytics_storage': 'denied',
+    'functionality_storage': 'denied',
+    'personalization_storage': 'denied',
     'security_storage': 'granted',
     'wait_for_update': waitForUpdate
   };
-  
-  // Set the main consent defaults
-  setDefaultConsentState(defaultSettings);
-  
-  // Set ads_data_redaction in a separate gtag call
+
+  if (enableRegionalConsent) {
+    const restrictedDefaultSettings = {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'denied',
+      'personalization_storage': 'denied',
+      'security_storage': 'granted',
+      'region': restrictedRegions,
+      'wait_for_update': waitForUpdate
+    };
+
+    const otherRegionsDefaultSettings = {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted',
+      'personalization_storage': 'granted',
+      'security_storage': 'granted',
+      'wait_for_update': waitForUpdate
+    };
+
+    setDefaultConsentState(restrictedDefaultSettings);
+    setDefaultConsentState(otherRegionsDefaultSettings);
+
+    dataLayerPush({
+      'event': 'consent_default',
+      'consent_settings': {
+        'mode': 'regional',
+        'restricted_default': 'denied',
+        'other_regions_default': 'granted',
+        'security_storage': 'granted'
+      }
+    });
+  } else {
+    setDefaultConsentState(deniedDefaultSettings);
+
+    dataLayerPush({
+      'event': 'consent_default',
+      'consent_settings': {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied',
+        'functionality_storage': 'denied',
+        'personalization_storage': 'denied',
+        'security_storage': 'granted'
+      }
+    });
+  }
+
   if (adsDataRedaction) {
     callInWindow('gtag', 'set', 'ads_data_redaction', true);
   }
-  
-  // Set url_passthrough in a separate gtag call
+
   if (urlPassthrough) {
     callInWindow('gtag', 'set', 'url_passthrough', true);
   }
-  
-  // Push to dataLayer for debugging (only consent types)
-  const consentSettingsForDataLayer = {
-    'ad_storage': defaultSettings.ad_storage,
-    'ad_user_data': defaultSettings.ad_user_data,
-    'ad_personalization': defaultSettings.ad_personalization,
-    'analytics_storage': defaultSettings.analytics_storage,
-    'functionality_storage': defaultSettings.functionality_storage,
-    'personalization_storage': defaultSettings.personalization_storage,
-    'security_storage': defaultSettings.security_storage
-  };
-  
-  dataLayerPush({
-    'event': 'consent_default',
-    'consent_settings': consentSettingsForDataLayer
-  });
-  
-  // If we have saved consent, also fire update event
+
   if (savedConsent) {
     updateConsentState({
       'ad_storage': savedConsent.ad_storage,
@@ -694,7 +742,7 @@ function setDefaultConsent() {
       'personalization_storage': savedConsent.personalization_storage,
       'security_storage': 'granted'
     });
-    
+
     dataLayerPush({
       'event': 'consent_update',
       'consent_settings': savedConsent
