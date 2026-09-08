@@ -1,28 +1,39 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
+  - sha: "856bb5bef4297623c8c44604617011fde7cc6c35"
+    changeNotes: |
+      Version 2.2 - Optional Regional Consent Defaults
+
+      NEW FEATURES:
+      - Added optional regional consent defaults
+      - EEA, UK and Switzerland default to denied when enabled
+      - Other regions default to granted when enabled
+      - Global denied remains the default when regional mode is disabled
+      - Existing saved consent choices continue to be applied via consent updates
+
   - sha: "29e80ee9ba452195c46177aa2d9a23ced9b57e2b"
     changeNotes: |
       Version 2.1 - Cookie Domain Scope Option
-      
+
       NEW FEATURES:
       - Added Cookie Domain Scope dropdown in Advanced Settings
       - Option 1: "Current domain only" (default) - cookies work on single domain
       - Option 2: "Include all subdomains" - cookies shared across all subdomains
-      
+
       This allows sites with multiple subdomains to share consent preferences
       across their entire domain without requiring users to consent multiple times.
 
   - sha: "5bba78ca4ff68065e8dc4a2a87c3bdaac01c8665"
     changeNotes: |
       Version 2.0 - Consent Logging for GDPR Compliance
-      
+
       NEW FEATURES:
       - Consent logging to Google Sheets via Apps Script
       - Persistent consent ID for tracking user consent history across sessions
       - Banner/policy version tracking
       - Complete audit trail with timestamps, user choices, and page URLs
-      
+
       This update helps you maintain GDPR-compliant consent records that can be
       used for audits and legal defense. Each consent action is logged with:
       - ISO 8601 timestamp
@@ -31,13 +42,13 @@ versions:
       - All consent category states
       - Page URL and user agent
       - Banner version
-      
+
       SETUP:
       1. Create a Google Sheet
       2. Add the provided Apps Script code
       3. Deploy as Web App
       4. Paste the URL in GTM template settings
-      
+
       See README.md for detailed setup instructions.
 
   - sha: "6cc53fe1a0b6fb3160174b57d37fe3dded535255"
