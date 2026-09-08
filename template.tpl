@@ -695,18 +695,23 @@ function setDefaultConsent() {
       'wait_for_update': waitForUpdate
     };
 
-    setDefaultConsentState(restrictedDefaultSettings);
     setDefaultConsentState(otherRegionsDefaultSettings);
+    setDefaultConsentState(restrictedDefaultSettings);
 
     dataLayerPush({
-      'event': 'consent_default',
-      'consent_settings': {
-        'mode': 'regional',
-        'restricted_default': 'denied',
-        'other_regions_default': 'granted',
-        'security_storage': 'granted'
-      }
-    });
+	  'event': 'consent_default',
+	  'consent_settings': {
+		'ad_storage': 'denied',
+		'ad_user_data': 'denied',
+		'ad_personalization': 'denied',
+		'analytics_storage': 'denied',
+		'functionality_storage': 'denied',
+		'personalization_storage': 'denied',
+		'security_storage': 'granted',
+		'mode': 'regional',
+		'other_regions_default': 'granted'
+	  }
+	});
   } else {
     setDefaultConsentState(deniedDefaultSettings);
 
@@ -1345,6 +1350,13 @@ Features:
 - Lightweight implementation
 - Optional floating settings button
 - Consent logging to Google Sheets for GDPR compliance
+
+Version 2.2:
+- Added optional regional consent defaults
+- When enabled: denied in EEA, UK and Switzerland; granted elsewhere
+- When disabled: denied globally (unchanged default behaviour)
+- Note: outside the restricted regions the banner is still displayed,
+  but defaults are granted until the user decides
 
 Version 2.1:
 - Added Cookie Domain Scope option (current domain only or all subdomains)
