@@ -1,6 +1,15 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
+   - sha: "NOVI_SHA_OVDJE"
+    changeNotes: |
+      Version 2.2 - UI and Configuration Improvements
+
+      NEW FEATURES:
+      - Added optional background overlay
+      - Improved mobile banner layout
+      - Added support for additional restricted regions
+
   - sha: "4336c742f659aac091cf56ea6b97c75210d13079"
     changeNotes: |
       Version 2.2 - Optional Regional Consent Defaults

@@ -341,7 +341,15 @@ ___TEMPLATE_PARAMETERS___
         "displayName": "Text Color",
         "simpleValueType": true,
         "defaultValue": "#111827"
-      }
+      },
+	  {
+	  "type": "CHECKBOX",
+	  "name": "showOverlay",
+	  "checkboxText": "Show background overlay",
+	  "simpleValueType": true,
+	  "defaultValue": true,
+	  "help": "Display a background overlay and keep focus inside the consent banner until the user makes a choice."
+	}
     ]
   },
   {
@@ -628,6 +636,7 @@ const JSON = require('JSON');
 const bannerId = data.bannerId;
 const defaultLanguage = data.defaultLanguage;
 const autoDetectLanguage = data.autoDetectLanguage;
+const showOverlay = data.showOverlay;
 const adsDataRedaction = data.adsDataRedaction;
 const urlPassthrough = data.urlPassthrough;
 const waitForUpdate = makeNumber(data.waitForUpdate);
@@ -800,6 +809,7 @@ function initConsentBanner() {
     bannerId: bannerId,
     defaultLanguage: defaultLanguage,
     autoDetectLanguage: autoDetectLanguage,
+	showOverlay: showOverlay,
     cookieName: cookieName,
     cookieExpiry: cookieExpiry,
     cookieDomainMode: cookieDomainMode,

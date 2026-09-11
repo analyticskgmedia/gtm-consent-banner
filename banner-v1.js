@@ -747,41 +747,77 @@
         }
 
         @media (max-width: 600px) {
-            .kg-consent-container {
-                margin: 0;
-                border-radius: 12px 12px 0 0;
-                max-width: 100%;
-            }
+				.kg-consent-container {
+					margin: 0;
+					border-radius: 12px 12px 0 0;
+					max-width: 100%;
+					max-height: 100vh;
+					overflow-y: auto;
+				}
 
-            .kg-consent-header {
-                grid-template-columns: auto 1fr;
-                gap: 12px;
-            }
+				.kg-consent-content {
+					padding: 20px;
+				}
 
-            .kg-consent-logo-left {
-                max-width: 120px;
-                height: auto;
-                max-height: 40px;
-                object-fit: contain;
-            }
+				.kg-consent-header {
+					grid-template-columns: auto 1fr;
+					gap: 8px;
+					margin-bottom: 10px;
+				}
 
-            .kg-consent-title {
-                font-size: 20px;
-                text-align: left;
-                grid-column: auto;
-            }
+				.kg-consent-logo-left {
+					max-width: 100px;
+					height: auto;
+					max-height: 32px;
+					object-fit: contain;
+				}
 
-            .kg-consent-buttons {
-                gap: 8px;
-            }
+				.kg-consent-title {
+					font-size: 18px;
+					text-align: left;
+					grid-column: auto;
+				}
 
-            .kg-consent-button {
-                padding: 10px 12px;
-                font-size: 13px;
-                min-width: auto;
-                flex: 1 1 100%;
-            }
-        }
+				.kg-consent-description {
+					font-size: 14px;
+					line-height: 1.45;
+					margin-bottom: 14px;
+				}
+
+				.kg-consent-buttons {
+					gap: 6px;
+				}
+
+				.kg-consent-button {
+					padding: 9px 10px;
+					font-size: 13px;
+					min-width: auto;
+					flex: 1 1 100%;
+				}
+
+				.kg-consent-details {
+					margin-top: 16px;
+					padding-top: 16px;
+				}
+
+				.kg-consent-category {
+					margin-bottom: 14px;
+				}
+
+				.kg-consent-category-title {
+					font-size: 16px;
+				}
+
+				.kg-consent-category-description {
+					font-size: 13px;
+					margin-bottom: 8px;
+				}
+
+				.kg-consent-footer {
+					margin-top: 14px;
+					padding-top: 10px;
+				}
+			}
     `;
 
     // Helper functions
@@ -918,6 +954,7 @@
     function createBanner() {
         const config = window.kgConsentConfig || {};
         const bannerId = config.bannerId || 'kg-consent-banner';
+		const showOverlay = config.showOverlay !== false;
         
         if (document.getElementById(bannerId)) {
             return;
@@ -941,7 +978,7 @@
         banner.id = bannerId;
         banner.setAttribute('role', 'dialog');
         banner.setAttribute('aria-labelledby', `${bannerId}-title`);
-        banner.setAttribute('aria-modal', 'true');
+        banner.setAttribute('aria-modal', showOverlay ? 'true' : 'false');
 
         const currentLang = detectLanguage();
         const privacyUrl = config.privacyPolicyUrls?.[currentLang] || '#';
@@ -1031,8 +1068,11 @@
             </div>
         `;
 
-        document.body.appendChild(overlay);
-        document.body.appendChild(banner);
+			if (showOverlay) {
+		document.body.appendChild(overlay);
+		}
+
+		document.body.appendChild(banner);
         setupEventListeners(bannerId);
     }
 
@@ -1088,27 +1128,29 @@
             hideBanner(bannerId);
         });
 
-        const focusableElements = banner.querySelectorAll('button, input, a');
-        const firstFocusable = focusableElements[0];
-        const lastFocusable = focusableElements[focusableElements.length - 1];
+        if (config.showOverlay !== false) {
+			const focusableElements = banner.querySelectorAll('button, input, a');
+			const firstFocusable = focusableElements[0];
+			const lastFocusable = focusableElements[focusableElements.length - 1];
 
-        firstFocusable.focus();
+			firstFocusable.focus();
 
-        banner.addEventListener('keydown', function(e) {
-            if (e.key === 'Tab') {
-                if (e.shiftKey) {
-                    if (document.activeElement === firstFocusable) {
-                        e.preventDefault();
-                        lastFocusable.focus();
-                    }
-                } else {
-                    if (document.activeElement === lastFocusable) {
-                        e.preventDefault();
-                        firstFocusable.focus();
-                    }
-                }
-            }
-        });
+			banner.addEventListener('keydown', function(e) {
+				if (e.key === 'Tab') {
+					if (e.shiftKey) {
+						if (document.activeElement === firstFocusable) {
+							e.preventDefault();
+							lastFocusable.focus();
+						}
+					} else {
+						if (document.activeElement === lastFocusable) {
+							e.preventDefault();
+							firstFocusable.focus();
+						}
+					}
+				}
+			});
+		}
     }
 
     function saveConsent(consent, action) {

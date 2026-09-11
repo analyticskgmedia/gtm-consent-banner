@@ -14,6 +14,9 @@ A complete GDPR-compliant consent banner implementation for Google Tag Manager w
 - ✅ **No dependencies** - Pure vanilla JavaScript
 - ✅ **Consent Logging** - Log all consent actions to Google Sheets for GDPR compliance
 - ✅ **Optional regional consent defaults** - EEA, UK and Switzerland can default to denied while other regions default to granted
+- ✅ **Additional restricted regions** - Add custom ISO 3166-2 regions to regional consent defaults
+- ✅ **Optional background overlay** - Enable or disable the background overlay behind the consent banner
+- ✅ **Optimized mobile layout** - More compact banner layout on mobile devices
 
 ## Installation
 
@@ -55,6 +58,7 @@ Alternatively, you can use your own hosting location and update the script URL i
 - **url_passthrough**: Pass ad click information through URLs (default: enabled)
 - **Wait for update**: Milliseconds to wait for consent (default: 2000)
 - **Enable regional consent defaults**: When enabled, consent defaults to `denied` in the EEA, UK and Switzerland, and `granted` in other regions. When disabled, consent defaults to `denied` globally (default: disabled).
+- **Additional restricted regions**: Optional ISO 3166-2 region codes that should also default to `denied` when regional consent mode is enabled. EEA, UK and Switzerland are already included.
 
 ### Consent Logging (GDPR Compliance) - NEW in v2.0
 
@@ -115,11 +119,12 @@ Each consent action logs:
 ### Appearance
 
 - **Primary Button Color**: Color for "Accept All" button
-- **Primary Button Text Color**: Text color for primary button
-- **Secondary Button Color**: Color for "Details" and "Reject All" buttons
-- **Secondary Button Text Color**: Text color for secondary buttons
+- **Primary Button Text Color**: Text color for primary buttons
+- **Secondary Button Color**: Color for the "Details" button
+- **Secondary Button Text Color**: Text color for secondary button
 - **Background Color**: Banner background color
 - **Text Color**: Main text color
+- **Show background overlay**: Enable/disable the background overlay behind the consent banner (default: enabled)
 
 ### Logo
 
@@ -209,6 +214,9 @@ This consent banner helps you comply with GDPR by:
 - Other regions default to granted when regional mode is enabled
 - Global denied remains the default behavior when regional mode is disabled
 - Saved consent choices continue to be applied through consent updates
+- Added support for additional restricted regions
+- Added optional background overlay setting
+- Improved mobile banner layout
 
 ### v2.1
 - Added Cookie Domain Scope option
