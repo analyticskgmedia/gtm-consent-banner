@@ -540,14 +540,17 @@
             grid-column: 2;
         }
 
-        .kg-consent-description {
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--kg-text-color, #111827);
-            margin: 0 0 24px 0;
-            opacity: 0.8;
-            text-align: justify;
-        }
+		.kg-consent-description {
+			font-size: 16px;
+			line-height: 1.5;
+			color: var(--kg-text-color, #111827);
+			margin: 0 0 22px 0;
+			opacity: 0.8;
+			text-align: left;
+			text-wrap: pretty;
+			hyphens: auto;
+			hyphenate-limit-chars: 7 4 3;
+		}
 
         .kg-consent-buttons {
             display: flex;
@@ -684,8 +687,8 @@
         }
 
         .kg-consent-footer {
-            margin-top: 24px;
-            padding-top: 16px;
+            margin-top: 20px;
+            padding-top: 12px;
             border-top: 1px solid rgba(0, 0, 0, 0.1);
             display: flex;
             align-items: center;
@@ -760,12 +763,13 @@
 				}
 
 				.kg-consent-header {
-					grid-template-columns: auto 1fr;
+					grid-template-columns: 1fr;
 					gap: 8px;
 					margin-bottom: 10px;
 				}
 
 				.kg-consent-logo-left {
+					justify-self: center;
 					max-width: 100px;
 					height: auto;
 					max-height: 32px;
@@ -774,8 +778,8 @@
 
 				.kg-consent-title {
 					font-size: 18px;
-					text-align: left;
-					grid-column: auto;
+					text-align: center;
+					grid-column: 1;
 				}
 
 				.kg-consent-description {
