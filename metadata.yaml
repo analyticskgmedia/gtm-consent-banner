@@ -1,7 +1,7 @@
 homepage: "https://github.com/analyticskgmedia/gtm-consent-banner"
 documentation: "https://github.com/analyticskgmedia/gtm-consent-banner/blob/main/README.md"
 versions:
-   - sha: "NOVI_SHA_OVDJE"
+   - sha: "8ae444d72c2bcadfab0797760d2f0c341cea792c"
     changeNotes: |
       Version 2.2 - UI and Configuration Improvements
 
